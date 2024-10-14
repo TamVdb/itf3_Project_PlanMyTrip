@@ -1,3 +1,45 @@
+@font-face {
+   font-family: 'Vacaciones';
+   src:url('./fonts/vacaciones/Vacaciones.ttf');
+}
+
+@font-face {
+   font-family: 'Josefin';
+   src:url('./fonts/josefin/JosefinSans-VariableFont_wght.ttf');
+}
+@font-face {
+   font-family: 'Quicksand';
+   src:url('./fonts/quicksand/Quicksand-VariableFont_wght.ttf');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+   font-family: 'Quicksand', sans-serif;
+  }
+}
+
+/* 
+:root {
+   --primary: #ff3d77;
+   --secondary: #00e5e6;
+   --default-transition: all 0.3s ease-in-out;
+
+   --nav-a: #f7f7f8;
+   --nav-a-hover: white;
+
+   --default-border-radius: 5px;
+
+   --modal-bg: #f7f7f8;
+   --modal-text: #3c3a47;
+   --modal-title: #2d2c35;
+   --modal-tag-bg: #eeedf1;
+
+   --btn-primary-bg: var(--primary);
+   --btn-primary-text: #f7f7f8;
+   --btn-primary-border: 2px solid var(--primary);
+   --btn-primary-hover-bg: #3c3a47;
+} */
