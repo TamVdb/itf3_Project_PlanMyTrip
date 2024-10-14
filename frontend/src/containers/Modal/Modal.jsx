@@ -1,6 +1,5 @@
-import { useState, useRef } from 'react';
-import Login from '../Login/Login';
-import Signup from '../Signup/Signup';
+import Login from '../../components/Login/Login';
+import Signup from '../../components/Signup/Signup';
 
 const Modal = ({ visible, modalType, onClose, switchToLogin, switchToSignup }) => {
    if (!visible) return null;
@@ -12,9 +11,9 @@ const Modal = ({ visible, modalType, onClose, switchToLogin, switchToSignup }) =
 
             {/* Affiche Login ou Signup en fonction de modalType */}
             {modalType === 'login' ? (
-               <Login switchToSignup={switchToSignup} />
+               <Login onSwitchToSignup={switchToSignup} />
             ) : (
-               <Signup switchToLogin={switchToLogin} />
+               <Signup onSwitchToLogin={switchToLogin} />
             )}
          </div>
       </div>
