@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Signup = ({ switchToLogin }) => {
+const Signup = ({ onSwitchToLogin }) => {
    const [showPassword, setShowPassword] = useState(false);
 
    return (
       <>
-         <div className={"p-4"}>
+         <div className="p-4 bg-white">
             <h1 className="text-2xl text-gray-600 font-semibold text-center mb-4">
                Create Your Account
             </h1>
             <form className="flex flex-col gap-3">
                <div>
-                  <label for="username" className="input-label">
+                  <label htmlFor="username" className="input-label">
                      Username
                   </label>
                   <input id="username" type="text" className="input" />
@@ -48,12 +48,12 @@ const Signup = ({ switchToLogin }) => {
                   </div>
                </div>
             </form>
-            <button className="bg-blue-500 text-white py-1 px-5 rounded-full mt-7 block w-full hover:bg-blue-500/80 transition-200">
+            <button className="bg-custom-yellow text-white py-1 px-5 rounded-full mt-7 block w-full hover:bg-custom-lightYellow transition-200">
                Create Account
             </button>
             <p
                className="text-center text-gray-500 text-sm my-3 hover:text-blue-700 cursor-pointer"
-               onClick={switchToLogin}
+               onClick={onSwitchToLogin}
             >
                Already have an Account? Log in
             </p>

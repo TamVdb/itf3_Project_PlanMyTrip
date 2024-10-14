@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Login = ({ switchToSignup }) => {
+const Login = ({ onSwitchToSignup }) => {
    const [showPassword, setShowPassword] = useState(false);
 
    return (
       <>
-         <div className={"p-4"}>
+         <div className="p-4 bg-white">
             <h1 className="text-2xl text-gray-600 font-semibold text-center mb-4">
                Log in
             </h1>
@@ -42,12 +42,12 @@ const Login = ({ switchToSignup }) => {
                   </div>
                </div>
             </form>
-            <button className="bg-blue-500 text-white py-1 px-5 rounded-full mt-7 block w-full hover:bg-blue-500/80 transition-200">
+            <button className="bg-custom-yellow text-white py-1 px-5 rounded-full mt-7 block w-full hover:bg-custom-lightYellow transition-200">
                Submit
             </button>
             <p
                className="text-center text-gray-500 text-sm my-3 hover:text-blue-700 cursor-pointer"
-               onClick={switchToSignup}
+               onClick={onSwitchToSignup}
             >
                No Account? create Signup here
             </p>
