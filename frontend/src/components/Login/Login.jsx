@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const Login = ({ onSwitchToSignup }) => {
    const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +44,7 @@ const Login = ({ onSwitchToSignup }) => {
                </div>
             </form>
             <button className="bg-custom-yellow text-white py-1 px-5 rounded-full mt-7 block w-full hover:bg-custom-lightYellow transition-200">
-               Submit
+               <Link to="/trips">Submit</Link>
             </button>
             <p
                className="text-center text-gray-500 text-sm my-3 hover:text-blue-700 cursor-pointer"
