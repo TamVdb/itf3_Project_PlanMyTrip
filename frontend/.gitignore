@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Mac files
+.DS_Store
+
+# Windows
+desktop.ini
