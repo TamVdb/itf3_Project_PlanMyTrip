@@ -1,18 +1,38 @@
+import { useState } from 'react';
+import AuthModal from '../AuthModal/AuthModal';
+
 const Header = ({ onShowModal }) => {
+
+   const [isAuthModalVisible, setIsAuthModalVisible] = useState(false); // AuthModal visibility state
+   const [AuthModalType, setAuthModalType] = useState('login'); // Either 'login' or 'signup'
 
    const handleLoginModal = (e) => {
       e.preventDefault();
-      onShowModal('login'); // Passe 'login' en paramètre pour ouvrir le modal avec Login
+      setAuthModalType('login');
+      setIsAuthModalVisible(true);
    };
 
    const handleSignUpModal = (e) => {
       e.preventDefault();
-      onShowModal('signup'); // Passe 'signup' pour ouvrir le modal avec Signup
+      setAuthModalType('signup');
+      setIsAuthModalVisible(true);
+   };
+
+   const closeAuthModal = () => {
+      setIsAuthModalVisible(false);
+   };
+
+   const switchToLogin = () => {
+      setAuthModalType('login');
+   };
+
+   const switchToSignup = () => {
+      setAuthModalType('signup');
    };
 
    return (
       <>
-         <header className="shadow-lg absolute top-0 left-0 w-full z-10">
+         <header className="shadow-lg absolute top-0 left-0 w-full z-10 bg-custom-lightBlue">
             <div className="container py-4 flex justify-between items-center">
                <div className="font-logo text-custom-blue text-2xl sm:text-3xl">Plan My Trip</div>
                <nav className="flex justify-between items-center">
@@ -23,6 +43,14 @@ const Header = ({ onShowModal }) => {
                </nav>
             </div>
          </header>
+
+         <AuthModal
+            visible={isAuthModalVisible}
+            modalType={AuthModalType}
+            onClose={closeAuthModal}
+            switchToLogin={switchToLogin}
+            switchToSignup={switchToSignup}
+         />
       </>
    );
 };
