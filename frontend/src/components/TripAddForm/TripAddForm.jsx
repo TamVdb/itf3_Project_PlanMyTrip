@@ -29,6 +29,13 @@ const TripAddForm = ({ onAddTrip = () => { } }) => {
 
       // Envoi du formulaire au composant parent
       onAddTrip(newTrip);
+
+      // Reset du formulaire
+      setTripName('');
+      setTripDescription('');
+      setTripLocation('');
+      setTripStartDate('');
+      setTripEndDate('');
    };
 
    return (
