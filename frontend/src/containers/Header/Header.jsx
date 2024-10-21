@@ -4,7 +4,7 @@ import AuthModal from '../AuthModal/AuthModal';
 const Header = ({ onShowModal }) => {
 
    const [isAuthModalVisible, setIsAuthModalVisible] = useState(false); // AuthModal visibility state
-   const [AuthModalType, setAuthModalType] = useState('login'); // Either 'login' or 'signup'
+   const [authModalType, setAuthModalType] = useState('login'); // Either 'login' or 'signup'
 
    const handleLoginModal = (e) => {
       e.preventDefault();
@@ -46,7 +46,7 @@ const Header = ({ onShowModal }) => {
 
          <AuthModal
             visible={isAuthModalVisible}
-            modalType={AuthModalType}
+            modalType={authModalType}
             onClose={closeAuthModal}
             switchToLogin={switchToLogin}
             switchToSignup={switchToSignup}
