@@ -21,11 +21,11 @@
       font-family: 'Quicksand', sans-serif;
    }
    .input {
-      @apply border border-gray-400 w-full rounded-lg py-[3px] outline-none px-4 focus:ring-1 focus:ring-inset focus:ring-blue-200;
+      @apply border border-gray-400 w-full rounded-lg py-1.5 outline-none px-4 focus:ring-1 focus:ring-inset focus:ring-blue-200;
    }
 
    .input-label {
-      @apply text-gray-700 block pb-1;
+      @apply text-darkerText block pb-1 font-medium;
    }
 }
 
