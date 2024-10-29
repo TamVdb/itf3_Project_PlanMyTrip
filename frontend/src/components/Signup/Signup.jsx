@@ -1,8 +1,27 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Signup = ({ onSwitchToLogin }) => {
+const Signup = ({ onSwitchToLogin = () => { } }) => {
+
+   const [username, setUsername] = useState('');
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
    const [showPassword, setShowPassword] = useState(false);
+
+   const handleSignupSubmit = async (e) => {
+      e.preventDefault();
+
+      axios.post('', { username, email, password })
+         .then((res) => {
+            console.log(response.data);
+         })
+         .catch((error) => {
+            console.error(error);
+         });
+   };
+
 
    return (
       <>
@@ -10,19 +29,19 @@ const Signup = ({ onSwitchToLogin }) => {
             <h2 className="text-2xl text-custom-wine font-semibold font-title text-center mb-5">
                Sign up to save your trips
             </h2>
-            <form className="flex flex-col gap-3">
+            <form onSubmit={handleSignupSubmit} className="flex flex-col gap-3">
                <div>
                   <label htmlFor="username" className="input-label text-darkerText">Username</label>
-                  <input id="username" type="text" className="input" />
+                  <input id="username" type="text" className="input" onChange={(e) => setUsername(e.target.value)} />
                </div>
                <div>
                   <label htmlFor="email" className="input-label text-darkerText">Email</label>
-                  <input id="email" type="email" className="input" />
+                  <input id="email" type="email" className="input" onChange={(e) => setEmail(e.target.value)} />
                </div>
                <div>
                   <label htmlFor="password" className="input-label text-darkerText">Password</label>
                   <div className="relative">
-                     <input className="input pr-8" id="password" type={showPassword ? "text" : "password"} />
+                     <input className="input pr-8" id="password" type={showPassword ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} />
                      {showPassword ? (
                         <FaEye
                            className="text-darkerText absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer "

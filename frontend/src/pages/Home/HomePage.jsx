@@ -1,7 +1,7 @@
 import BgImage from '../../assets/test-bg.png';
 import Hero from '../../containers/Hero/Hero';
 
-const HomePage = () => {
+const HomePage = ({ handleLoginModal }) => {
 
    const bgMain = {
       background: "linear-gradient(0deg, #F0F9FB 0%, #DAF0F3 50%, #A8DAE3 75%)",
@@ -20,7 +20,7 @@ const HomePage = () => {
       <>
          <div style={bgMain}>
             <div style={bgImage} className="relative z-0">
-               <Hero />
+               <Hero handleLoginPopup={handleLoginModal} />
             </div>
          </div >
       </>

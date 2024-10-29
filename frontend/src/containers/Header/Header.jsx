@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AuthModal from '../AuthModal/AuthModal';
 
-const Header = ({ onShowModal }) => {
+const Header = () => {
 
    const [isAuthModalVisible, setIsAuthModalVisible] = useState(false); // AuthModal visibility state
    const [authModalType, setAuthModalType] = useState('login'); // Either 'login' or 'signup'

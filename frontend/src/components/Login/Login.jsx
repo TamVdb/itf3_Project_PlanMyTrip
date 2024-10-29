@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
-const Login = ({ onSwitchToSignup }) => {
+const Login = ({ onSwitchToSignup = () => { } }) => {
    const [showPassword, setShowPassword] = useState(false);
+
+   const [username, setUsername] = useState('');
+   const [password, setPassword] = useState('');
+
 
    return (
       <>
@@ -10,15 +16,15 @@ const Login = ({ onSwitchToSignup }) => {
             <h2 className="text-2xl text-custom-wine font-semibold font-title text-center mb-5">
                Log in to save your trips
             </h2>
-            <form className="flex flex-col gap-3">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                <div>
                   <label htmlFor="username" className="input-label text-darkerText">Username</label>
-                  <input id="username" type="text" className="input" />
+                  <input id="username" type="text" className="input" onChange={(e) => setUsername(e.target.value)} />
                </div>
                <div>
                   <label htmlFor="password" className="input-label text-darkerText">Password</label>
                   <div className="relative">
-                     <input className="input pr-8" id="password" type={showPassword ? "text" : "password"} />
+                     <input className="input pr-8" id="password" onChange={(e) => setPassword(e.target.value)} type={showPassword ? "text" : "password"} />
                      {showPassword ? (
                         <FaEye
                            className="text-darkerText absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer "

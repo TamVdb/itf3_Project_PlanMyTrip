@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
-const Hero = ({ handleLoginPopup }) => {
+const Hero = ({ handleLoginPopup = () => { } }) => {
+
 
    return (
       <>
@@ -10,14 +11,13 @@ const Hero = ({ handleLoginPopup }) => {
             </h1>
             <p className="text-darkerText text-lg font-semibold md:w-[850px] text-center pt-6">
                Plan My Trip makes planning your adventures easy and fun. Just a few clicks to map out, optimize, and enjoy every moment of your trip!
-            </p>
-            <Link to="/trips">  {/* Le lien englobe le bouton */}
-               <button
-                  onClick={handleLoginPopup}
-                  className="bg-custom-orange text-white py-2 px-5 rounded-xl mt-7 hover:bg-orange-500/80 transition-200">
-                  Start planning
-               </button>
-            </Link>
+            </p> {/* Le lien englobe le bouton */}
+            <button
+               onClick={handleLoginPopup}
+               className="bg-custom-orange text-white py-2 px-5 rounded-xl mt-7 hover:bg-orange-500/80 transition-200">
+               Start planning
+            </button>
+
          </div>
       </>
    );
