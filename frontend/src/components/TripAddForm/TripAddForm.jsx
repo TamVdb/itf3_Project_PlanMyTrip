@@ -40,8 +40,8 @@ const TripAddForm = ({ onAddTrip = () => { } }) => {
 
    return (
 
-      <div className='p-4 bg-white'>
-         <h2 className='text-2xl text-custom-wine font-semibold text-center mb-4'>
+      <div className="px-8 pt-16 pb-8">
+         <h2 className='text-2xl text-custom-wine font-semibold text-center mb-5'>
             Add a new Trip
          </h2>
          <form onSubmit={handleTripSubmit} className='flex flex-col gap-3'>
@@ -70,7 +70,7 @@ const TripAddForm = ({ onAddTrip = () => { } }) => {
                <input id={inputId + 'end-date'} type='text' className='input'
                   value={tripEndDate} onChange={(e) => setTripEndDate(e.target.value)} />
             </div>
-            <button type='submit' className='bg-custom-yellow text-white py-1 px-5 rounded-full mt-7 block w-full hover:bg-custom-lightYellow transition-200'>
+            <button type='submit' className='bg-custom-yellow text-white py-1.5 rounded-lg mt-4 block w-full hover:bg-custom-lightYellow transition-200'>
                Add a trip
             </button>
          </form>
