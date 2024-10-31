@@ -9,6 +9,25 @@ const Login = ({ onSwitchToSignup = () => { } }) => {
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
 
+   const navigate = useNavigate();
+
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+         // Envoie les informations de connexion à l'API
+         const response = await axios.post('http://localhost:8000/login', { username, password });
+
+         if (response.status === 200) {
+            // Redirige vers la page d'accueil ou tableau de bord en cas de succès
+            navigate('/trips');
+         } else {
+            console.log('Connexion échouée');
+         }
+      } catch (error) {
+         console.error("Erreur lors de la connexion:", error);
+      }
+   };
+
 
    return (
       <>

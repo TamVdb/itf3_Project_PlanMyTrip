@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from "axios";
 
 const Signup = ({ onSwitchToLogin = () => { } }) => {
 
@@ -10,16 +10,22 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
 
    const [showPassword, setShowPassword] = useState(false);
 
-   const handleSignupSubmit = async (e) => {
+   const handleSignupSubmit = (e) => {
       e.preventDefault();
 
-      axios.post('', { username, email, password })
-         .then((res) => {
-            console.log(response.data);
+      const newUser = {
+         username,
+         email,
+         password
+      };
+
+      const response = axios.post(`${import.meta.env.VITE_APP_URL}/signup`, newUser)
+         //Show date in console and switch to login form
+         .then(res => {
+            console.log(res.data);
+            onSwitchToLogin();
          })
-         .catch((error) => {
-            console.error(error);
-         });
+         .catch(err => console.log(err));
    };
 
 
