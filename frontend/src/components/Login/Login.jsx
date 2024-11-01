@@ -11,21 +11,18 @@ const Login = ({ onSwitchToSignup = () => { } }) => {
 
    const navigate = useNavigate();
 
-   const handleSubmit = async (e) => {
+   const handleLoginSubmit = async (e) => {
       e.preventDefault();
-      try {
-         // Envoie les informations de connexion à l'API
-         const response = await axios.post('http://localhost:8000/login', { username, password });
-
-         if (response.status === 200) {
-            // Redirige vers la page d'accueil ou tableau de bord en cas de succès
-            navigate('/trips');
-         } else {
-            console.log('Connexion échouée');
-         }
-      } catch (error) {
-         console.error("Erreur lors de la connexion:", error);
-      }
+      // Envoie les informations de connexion à l'API
+      axios.post(`${import.meta.env.VITE_APP_URL}/api/users/login`, { username, password })
+         .then(res => {
+            if (res.data === "Success") {
+               navigate('/trips');
+            } else {
+               alert("Login failed");
+            }
+         })
+         .catch(err => console.log(err));
    };
 
 
@@ -35,7 +32,7 @@ const Login = ({ onSwitchToSignup = () => { } }) => {
             <h2 className="text-2xl text-custom-wine font-semibold font-title text-center mb-5">
                Log in to save your trips
             </h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <form onSubmit={handleLoginSubmit} className="flex flex-col gap-3">
                <div>
                   <label htmlFor="username" className="input-label text-darkerText">Username</label>
                   <input id="username" type="text" className="input" onChange={(e) => setUsername(e.target.value)} />

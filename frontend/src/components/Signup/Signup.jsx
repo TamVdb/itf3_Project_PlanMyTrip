@@ -19,13 +19,21 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
          password
       };
 
-      const response = axios.post(`${import.meta.env.VITE_APP_URL}/signup`, newUser)
+      axios.post(`${import.meta.env.VITE_APP_URL}/api/users/signup`, newUser)
          //Show date in console and switch to login form
          .then(res => {
-            console.log(res.data);
-            onSwitchToLogin();
+            if (res.status === 201) {
+               console.log('User created successfully');
+               onSwitchToLogin();
+            }
          })
-         .catch(err => console.log(err));
+         .catch(err => {
+            if (err.response && err.response.status === 400) {
+               window.alert("Email already exists. Please use a different email.");
+            } else {
+               console.log(err);
+            }
+         });
    };
 
 
