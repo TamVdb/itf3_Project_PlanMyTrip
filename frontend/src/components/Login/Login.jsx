@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
-const Login = ({ onSwitchToSignup = () => { } }) => {
+const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { } }) => {
    const [showPassword, setShowPassword] = useState(false);
 
    const [username, setUsername] = useState('');
@@ -18,6 +18,7 @@ const Login = ({ onSwitchToSignup = () => { } }) => {
          .then(res => {
             if (res.data === "Success") {
                navigate('/trips');
+               onSuccessfulConnection();
             } else {
                alert("Login failed");
             }

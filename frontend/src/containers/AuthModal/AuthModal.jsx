@@ -11,9 +11,11 @@ const AuthModal = ({ visible, modalType, onClose, switchToLogin, switchToSignup 
 
             {/* Affiche Login ou Signup en fonction de modalType */}
             {modalType === 'login' ? (
-               <Login onSwitchToSignup={switchToSignup} />
+               <Login onSwitchToSignup={switchToSignup}
+                  onSuccessfulConnection={onClose} />
             ) : (
-               <Signup onSwitchToLogin={switchToLogin} />
+               <Signup onSwitchToLogin={switchToLogin}
+                  onSuccessfulConnection={onClose} />
             )}
          </div>
       </div>
