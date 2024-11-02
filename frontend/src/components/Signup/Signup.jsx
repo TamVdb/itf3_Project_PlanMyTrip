@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
+import { handleError, handleSuccess } from '../../utils';
+import { Toaster } from 'react-hot-toast';
 
 const Signup = ({ onSwitchToLogin = () => { } }) => {
 
@@ -20,16 +22,21 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
       };
 
       axios.post(`${import.meta.env.VITE_APP_URL}/api/users/signup`, newUser)
-         //Show date in console and switch to login form
          .then(res => {
             if (res.status === 201) {
                console.log('User created successfully');
-               onSwitchToLogin();
+               // Show toast with success message
+               handleSuccess('User created successfully');
+               // Switch to login form after 2 seconds
+               setTimeout(() => {
+                  onSwitchToLogin();
+               }, 2000);
             }
          })
          .catch(err => {
             if (err.response && err.response.status === 400) {
-               window.alert("Email already exists. Please use a different email.");
+               // Show toast with error message
+               handleError('Email already exists. Please use a different email.');
             } else {
                console.log(err);
             }
@@ -39,6 +46,7 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
 
    return (
       <>
+         <Toaster />
          <div className="px-8 pt-16 pb-8">
             <h2 className="text-2xl text-custom-wine font-semibold font-title text-center mb-5">
                Sign up to save your trips
@@ -69,7 +77,7 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
                      )}
                   </div>
                </div>
-               <button className="bg-custom-yellow text-white py-1.5 mt-4 block w-full hover:bg-custom-lightYellow transition-200">
+               <button className="bg-custom-yellow text-white py-1.5 rounded-lg mt-4 block w-full hover:bg-custom-lightYellow transition-200">
                   Create Account
                </button>
             </form>

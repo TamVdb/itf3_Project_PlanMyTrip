@@ -17,7 +17,7 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
       axios.post(`${import.meta.env.VITE_APP_URL}/api/users/login`, { username, password })
          .then(res => {
             if (res.data === "Success") {
-               navigate('/trips');
+               navigate('/trips'), { state: { username: username } };
                onSuccessfulConnection();
             } else {
                alert("Login failed");
@@ -56,7 +56,7 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
                   </div>
                </div>
                <button className="bg-custom-yellow text-white py-1.5 rounded-lg mt-4 block w-full hover:bg-custom-lightYellow transition-200">
-                  Submit
+                  Log in
                </button>
             </form>
             <p className="text-center text-darkerText mt-6"
