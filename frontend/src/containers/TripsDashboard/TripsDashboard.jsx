@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { FaGlobeEurope } from 'react-icons/fa';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 import TripList from '../../components/TripList/TripList';
 import TripModal from '../TripModal/TripModal';
 
 const TripsDashboard = () => {
+
+   const user = useContext(UserContext);
 
    const [trips, setTrips] = useState([]); // État pour stocker les trips
    const [isTripModalVisible, setIsTripModalVisible] = useState(false); // État pour la visibilité du modal
@@ -29,7 +33,7 @@ const TripsDashboard = () => {
    return (
       <>
          <div className="container py-4 flex justify-center">
-            <h1 className="font-title font-bold text-custom-wine text-center text-3xl sm:text-5xl lg:text-6xl pt-28 md:w-[900px]">Name's Dashboard</h1>
+            <h1 className="font-title font-bold text-custom-wine text-center text-3xl sm:text-5xl lg:text-6xl pt-28 md:w-[900px]">{user.username}'s dashboard</h1>
          </div>
 
          <div className="container py-4 flex justify-between">

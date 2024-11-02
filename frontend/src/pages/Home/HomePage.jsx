@@ -20,7 +20,7 @@ const HomePage = ({ handleLoginModal }) => {
       <>
          <div style={bgMain}>
             <div style={bgImage} className="relative z-0">
-               <Hero handleLoginPopup={handleLoginModal} />
+               <Hero onLoginPopup={handleLoginModal} />
             </div>
          </div >
       </>
