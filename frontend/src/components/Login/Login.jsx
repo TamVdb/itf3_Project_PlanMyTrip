@@ -14,13 +14,18 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
    const handleLoginSubmit = async (e) => {
       e.preventDefault();
       // Envoie les informations de connexion à l'API
-      axios.post(`${import.meta.env.VITE_APP_URL}/api/users/login`, { username, password })
+      axios.post(`${import.meta.env.VITE_APP_URL}/api/users/login`, { username, password }, { withCredentials: true })
          .then(res => {
-            if (res.data === "Success") {
-               navigate('/trips'), { state: { username: username } };
+            if (res.data === 'Success') {
+               axios.get(`${import.meta.env.VITE_APP_URL}/api/users/user`, { withCredentials: true })
+                  .then(res => {
+                     if (res.data.user) {
+                        navigate('/trips', { state: { user: res.data.user } });
+                     }
+                  });
                onSuccessfulConnection();
             } else {
-               alert("Login failed");
+               alert('Login failed');
             }
          })
          .catch(err => console.log(err));
