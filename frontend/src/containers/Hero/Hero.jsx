@@ -1,4 +1,4 @@
-const Hero = ({ onLoginPopup = () => { } }) => {
+const Hero = ({ onShowLoginModal = () => { } }) => {
 
    return (
       <>
@@ -10,7 +10,7 @@ const Hero = ({ onLoginPopup = () => { } }) => {
                Plan My Trip makes planning your adventures easy and fun. Just a few clicks to map out, optimize, and enjoy every moment of your trip!
             </p>
             <button
-               onClick={onLoginPopup}
+               onClick={onShowLoginModal}
                className="bg-custom-orange text-white py-2 px-5 rounded-xl mt-7 hover:bg-orange-500/80 transition-200">
                Start planning
             </button>
