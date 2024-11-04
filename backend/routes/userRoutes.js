@@ -60,5 +60,21 @@ userRoutes.get('/user', (req, res) => {
    }
 });
 
+//#4 - Logout
+userRoutes.post('/logout', (req, res) => {
+   // Check if user is authenticated
+   if (req.session) {
+      req.session.destroy(err => {
+         if (err) {
+            res.status(500).json({ error: "Failed to logout" });
+         } else {
+            res.status(200).json("Logout successful");
+         }
+      });
+   } else {
+      res.status(400).json({ error: "No session found" });
+   }
+});
+
 
 module.exports = userRoutes;

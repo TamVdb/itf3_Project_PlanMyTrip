@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { setIsLoggedInContext } from '../../App';
 
 const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { } }) => {
+
+   const setIsLoggedIn = useContext(setIsLoggedInContext);
 
    const [showPassword, setShowPassword] = useState(false);
 
@@ -21,6 +24,7 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
                axios.get(`${import.meta.env.VITE_APP_URL}/api/users/user`, { withCredentials: true })
                   .then(res => {
                      if (res.data.user) {
+                        setIsLoggedIn(true);
                         navigate('/trips', { state: { user: res.data.user } });
                      }
                   });
