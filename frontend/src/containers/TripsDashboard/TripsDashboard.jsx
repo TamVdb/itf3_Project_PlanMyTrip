@@ -56,7 +56,9 @@ const TripsDashboard = () => {
             onAddTrip={handleNewTrip} // Passe la fonction pour ajouter un trip
          />
 
-         <TripList allTrips={trips} />
+         <div className="container flex flex-row flex-wrap gap-5">
+            <TripList allTrips={trips} />
+         </div>
       </>
    );
 };

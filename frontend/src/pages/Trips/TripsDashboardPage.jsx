@@ -4,7 +4,9 @@ const TripsDashboardPage = () => {
 
    return (
       <>
-         <TripsDashboard />
+         <main className="flex flex-col flex-1 mainbg">
+            <TripsDashboard />
+         </main>
       </>
    );
 };
