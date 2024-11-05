@@ -7,24 +7,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Production
+/build
+
 *node_modules
 dist
 dist-ssr
 *.local
 *.tmp.js
 
-# Editor directories and files
+# VS CODE
 .vscode/*
+*.code-workspace
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 !.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+!.vscode/*.code-snippets
 
-# Mac files
-*.DS_Store
-
-# Windows
-*desktop.ini
+# Misc
+.DS_Store
+desktop.ini
