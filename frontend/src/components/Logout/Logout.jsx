@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { setIsLoggedInContext } from "../../App";
 import { useContext } from 'react';
+import { setIsLoggedInContext } from "../../App";
 
 const Logout = () => {
 

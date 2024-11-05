@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setIsLoggedInContext } from '../../App';
 
 const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { } }) => {

@@ -2,6 +2,7 @@ import Login from '../../components/Login/Login';
 import Signup from '../../components/Signup/Signup';
 
 const AuthModal = ({ visible, modalType, onClose, switchToLogin, switchToSignup }) => {
+
    if (!visible) return null; // Modal is not visible
 
    return (
