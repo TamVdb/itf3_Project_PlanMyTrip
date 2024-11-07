@@ -14,25 +14,30 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
    const [showPassword, setShowPassword] = useState(false);
 
    const dispatch = useDispatch();
-   const { isSuccess, isError } = useSelector((state) => state.user);
+   const { isSuccess, isError, message } = useSelector((state) => state.user);
 
    const handleSignupSubmit = (e) => {
       e.preventDefault();
+
+      if (!username || !email || !password) {
+         handleError('All fields are required.');
+         return;
+      }
+
       const newUser = { username, email, password };
       dispatch(signup(newUser));
    };
 
-   // Utilisation du useEffect pour réagir aux changements dans isSuccess ou isError
    useEffect(() => {
       if (isSuccess) {
          handleSuccess('User created successfully');
-         // Après l'inscription réussie, on dispatch setCredentials pour stocker l'utilisateur
-         dispatch(setCredentials({ username })); // Utiliser les données d'inscription ici
+         // After signing up successfully, dispatch setCredentials to store the user
+         dispatch(setCredentials({ username })); // Update credentials
          setTimeout(() => onSwitchToLogin(), 2000);
       } else if (isError) {
-         handleError('An error occurred. Please try again');
+         handleError(message || 'An error occurred. Please try again');
       }
-   }, [isSuccess, isError, dispatch, onSwitchToLogin]); // Dépendances
+   }, [isSuccess, isError, message, dispatch, onSwitchToLogin]); // Dépendances
 
 
    return (

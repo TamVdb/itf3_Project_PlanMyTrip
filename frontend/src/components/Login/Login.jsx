@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/users/user.service';
 import { setCredentials } from '../../store/auth/auth.slice';
+import { handleError } from '../../utils';
+import { Toaster } from 'react-hot-toast';
 
 const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { } }) => {
 
@@ -15,7 +17,9 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
    const dispatch = useDispatch();
 
    const { user } = useSelector((state) => state.auth);
+   const { isError, message } = useSelector((state) => state.user);
 
+   // // If user is logged in, redirect to trips
    // useEffect(() => {
    //    if (user) {
    //       onSuccessfulConnection();
@@ -26,20 +30,21 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
    const handleLoginSubmit = async (e) => {
       e.preventDefault();
 
+      if (!username || !password) {
+         handleError('Please fill out all fields.');
+         return;
+      }
+
       try {
-         // Exécution de l'action login pour se connecter
+         // Dispatch login action
          const resultAction = await dispatch(login({ username, password }));
 
-         // Vérifie si la connexion est réussie
+         // Check if login was successful
          if (login.fulfilled.match(resultAction)) {
-            // Met à jour l'état global de l'utilisateur
+            // Update credentials
             dispatch(setCredentials(resultAction.payload));
-
-            // Action en cas de connexion réussie
             onSuccessfulConnection();
             navigate('/trips', { state: { user: resultAction.payload.user } });
-         } else {
-            alert('Login failed');
          }
       } catch (error) {
          console.error(error);
@@ -49,6 +54,7 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
 
    return (
       <>
+         <Toaster />
          <div className="px-8 pt-16 pb-8">
             <h2 className="text-2xl text-custom-wine font-semibold font-title text-center mb-5">
                Log in to save your trips

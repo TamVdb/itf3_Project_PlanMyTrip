@@ -9,7 +9,7 @@ const Header = () => {
    const [authModalType, setAuthModalType] = useState('login'); // Either 'login' or 'signup'
 
    // Sélectionne l'utilisateur du state
-   const { user, isSuccess } = useSelector((state) => state.user);
+   const { isSuccess } = useSelector((state) => state.user);
 
    const handleLoginModal = (e) => {
       e.preventDefault();

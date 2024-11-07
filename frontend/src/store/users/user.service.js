@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { clearCredentials } from '../auth/auth.slice';
 
 const API_URL = `${import.meta.env.VITE_APP_URL}/api/users`;
 
 // Action pour l'inscription
 export const signup = createAsyncThunk('auth/signup', async (userData, { rejectWithValue }) => {
    try {
-      const response = await axios.post(`${API_URL}/signup`, userData);
+      const response = await axios.post(`${API_URL}/signup`, userData, { withCredentials: true });
       return response.data;
    } catch (error) {
       return rejectWithValue(error.response?.data || 'An error occurred');
@@ -17,7 +16,7 @@ export const signup = createAsyncThunk('auth/signup', async (userData, { rejectW
 // Action pour la connexion
 export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
    try {
-      const response = await axios.post(`${API_URL}/login`, credentials);
+      const response = await axios.post(`${API_URL}/login`, credentials, { withCredentials: true });
       return response.data;
    } catch (error) {
       return rejectWithValue(error.response?.data || 'An error occurred');
@@ -27,8 +26,8 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
 // Action pour la déconnexion
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
    try {
-      await axios.post(`${API_URL}/logout`);
-      thunkAPI.dispatch(clearCredentials()); // Mise à jour du state
+      const response = await axios.post(`${API_URL}/logout`);
+      return response.data;
    } catch (error) {
       return rejectWithValue(error.response?.data || 'An error occurred');
    }
