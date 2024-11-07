@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios";
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../../store/users/user.service';
+import { setCredentials } from '../../store/auth/auth.slice';
 import { handleError, handleSuccess } from '../../utils';
 import { Toaster } from 'react-hot-toast';
 
@@ -9,39 +11,28 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
    const [username, setUsername] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-
    const [showPassword, setShowPassword] = useState(false);
+
+   const dispatch = useDispatch();
+   const { isSuccess, isError } = useSelector((state) => state.user);
 
    const handleSignupSubmit = (e) => {
       e.preventDefault();
-
-      const newUser = {
-         username,
-         email,
-         password
-      };
-
-      axios.post(`${import.meta.env.VITE_APP_URL}/api/users/signup`, newUser)
-         .then(res => {
-            if (res.status === 201) {
-               console.log('User created successfully');
-               // Show toast with success message
-               handleSuccess('User created successfully');
-               // Switch to login form after 2 seconds
-               setTimeout(() => {
-                  onSwitchToLogin();
-               }, 2000);
-            }
-         })
-         .catch(err => {
-            if (err.response && err.response.status === 400) {
-               // Show toast with error message
-               handleError('Email already exists. Please use a different email.');
-            } else {
-               console.log(err);
-            }
-         });
+      const newUser = { username, email, password };
+      dispatch(signup(newUser));
    };
+
+   // Utilisation du useEffect pour réagir aux changements dans isSuccess ou isError
+   useEffect(() => {
+      if (isSuccess) {
+         handleSuccess('User created successfully');
+         // Après l'inscription réussie, on dispatch setCredentials pour stocker l'utilisateur
+         dispatch(setCredentials({ username })); // Utiliser les données d'inscription ici
+         setTimeout(() => onSwitchToLogin(), 2000);
+      } else if (isError) {
+         handleError('An error occurred. Please try again');
+      }
+   }, [isSuccess, isError, dispatch, onSwitchToLogin]); // Dépendances
 
 
    return (

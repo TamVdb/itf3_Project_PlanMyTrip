@@ -1,39 +1,49 @@
-import { useState, useContext } from 'react';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { setIsLoggedInContext } from '../../App';
+import { useEffect, useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../store/users/user.service';
+import { setCredentials } from '../../store/auth/auth.slice';
 
 const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { } }) => {
 
-   const setIsLoggedIn = useContext(setIsLoggedInContext);
-
-   const [showPassword, setShowPassword] = useState(false);
-
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
+   const [showPassword, setShowPassword] = useState(false);
 
    const navigate = useNavigate();
+   const dispatch = useDispatch();
+
+   const { user } = useSelector((state) => state.auth);
+
+   // useEffect(() => {
+   //    if (user) {
+   //       onSuccessfulConnection();
+   //       navigate('/trips', { state: { user } });
+   //    }
+   // }, [user, onSuccessfulConnection, navigate]);
 
    const handleLoginSubmit = async (e) => {
       e.preventDefault();
-      // Envoie les informations de connexion à l'API
-      axios.post(`${import.meta.env.VITE_APP_URL}/api/users/login`, { username, password }, { withCredentials: true })
-         .then(res => {
-            if (res.data === 'Success') {
-               axios.get(`${import.meta.env.VITE_APP_URL}/api/users/user`, { withCredentials: true })
-                  .then(res => {
-                     if (res.data.user) {
-                        setIsLoggedIn(true);
-                        navigate('/trips', { state: { user: res.data.user } });
-                     }
-                  });
-               onSuccessfulConnection();
-            } else {
-               alert('Login failed');
-            }
-         })
-         .catch(err => console.log(err));
+
+      try {
+         // Exécution de l'action login pour se connecter
+         const resultAction = await dispatch(login({ username, password }));
+
+         // Vérifie si la connexion est réussie
+         if (login.fulfilled.match(resultAction)) {
+            // Met à jour l'état global de l'utilisateur
+            dispatch(setCredentials(resultAction.payload));
+
+            // Action en cas de connexion réussie
+            onSuccessfulConnection();
+            navigate('/trips', { state: { user: resultAction.payload.user } });
+         } else {
+            alert('Login failed');
+         }
+      } catch (error) {
+         console.error(error);
+      }
    };
 
 

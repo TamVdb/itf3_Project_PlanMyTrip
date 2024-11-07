@@ -1,14 +1,15 @@
-import { useState, useContext } from 'react';
-import AuthModal from '../AuthModal/AuthModal';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Logout from '../../components/Logout/Logout';
-import { isLoggedInContext } from '../../App';
+import AuthModal from '../AuthModal/AuthModal';
 
 const Header = () => {
 
-   const isLoggedIn = useContext(isLoggedInContext);
-
    const [isAuthModalVisible, setIsAuthModalVisible] = useState(false); // AuthModal visibility state
    const [authModalType, setAuthModalType] = useState('login'); // Either 'login' or 'signup'
+
+   // Sélectionne l'utilisateur du state
+   const { user, isSuccess } = useSelector((state) => state.user);
 
    const handleLoginModal = (e) => {
       e.preventDefault();
@@ -41,7 +42,7 @@ const Header = () => {
                <div className="font-logo text-custom-blue text-2xl sm:text-3xl">Plan My Trip</div>
                <nav className="flex justify-between items-center">
                   <ul className="flex items-center gap-4">
-                     {isLoggedIn ? <Logout /> : (
+                     {isSuccess ? <Logout /> : (
                         <>
                            <li><a href="#" onClick={handleLoginModal} className="text-lg font-medium text-custom-blue hover:text-darkerText px-2 py-4">Log in</a></li>
                            <li><a href="#" onClick={handleSignUpModal} className="text-lg font-medium text-custom-blue hover:text-darkerText px-2 py-4">Sign up</a></li>

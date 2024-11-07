@@ -1,24 +1,15 @@
-import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/users/user.service';
 import { useNavigate } from "react-router-dom";
-import { useContext } from 'react';
-import { setIsLoggedInContext } from "../../App";
 
 const Logout = () => {
 
-   const setIsLoggedIn = useContext(setIsLoggedInContext);
-
+   const dispatch = useDispatch();
    const navigate = useNavigate();
 
-   const handleLogout = async () => {
-      try {
-         const response = await axios.post(`${import.meta.env.VITE_APP_URL}/api/users/logout`, { withCredentials: true });
-         if (response.status === 200) {
-            setIsLoggedIn(false);
-            navigate('/');
-         }
-      } catch (error) {
-         console.error("Error logging out:", error);
-      };
+   const handleLogout = () => {
+      dispatch(logout()); // Action pour réinitialiser l'état utilisateur
+      navigate('/'); // Rediriger l'utilisateur vers la page de login après la déconnexion
    };
 
    return (
