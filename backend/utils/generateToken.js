@@ -5,6 +5,7 @@ const generateToken = (res, userId) => {
       expiresIn: '30d',
    });
 
+   // Save the token in a cookie
    res.cookie('jwt', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',

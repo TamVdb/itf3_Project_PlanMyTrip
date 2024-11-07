@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt'); // For hashing passwords
 const UserModel = require('../models/userModel');
 const generateToken = require('../utils/generateToken');
 
-// @desc    Register a new user
+// @desc    Register a new user/ Set token
 // @route   POST /api/users/signup
 // @access  Public
 const registerUser = async (req, res) => {
@@ -16,11 +16,10 @@ const registerUser = async (req, res) => {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new UserModel({ username, email, password: hashedPassword });
-      const user = await newUser.save();
+      const user = UserModel.create({ username, email, password: hashedPassword });
 
       if (user) {
-         // Générez le token et envoyez-le dans la réponse
+         // Generate token and store it in a HTTP-only cookie
          generateToken(res, user._id);
          res.status(201).json({
             _id: user._id,
@@ -41,21 +40,20 @@ const loginUser = async (req, res) => {
    try {
       const { username, password } = req.body;
 
+      // Check for username
       const user = await UserModel.findOne({ username });
 
       if (user) {
          const passwordMatch = await bcrypt.compare(password, user.password);
          if (passwordMatch) {
             generateToken(res, user._id);
-            res.json({
-               user: {
-                  _id: user._id,
-                  username: user.username,
-                  email: user.email,
-               }
+            res.status(201).json({
+               _id: user._id,
+               username: user.username,
+               email: user.email,
             });
          } else {
-            res.status(401).json('Password doesn\'t match');
+            res.status(400).json('Password doesn\'t match');
          }
       } else {
          res.status(404).json('User not found');
@@ -65,9 +63,9 @@ const loginUser = async (req, res) => {
    }
 };
 
-// @desc    Get user profile
+// @desc    Get user
 // @route   GET /api/users/user
-// @access  Private
+// @access  Public
 const getUser = async (req, res) => {
    try {
       if (!req.user) {
