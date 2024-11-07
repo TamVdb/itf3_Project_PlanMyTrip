@@ -7,17 +7,13 @@ let userRoutes = express.Router();
 //#1 - Create a User
 userRoutes.post('/signup', async (req, res) => {
    try {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      const userObject = {
-         username: req.body.username,
-         email: req.body.email,
-         password: hashedPassword
-      };
-      const existingUser = await UserModel.findOne({ email: userObject.email });
+      const { name, email, password } = req.body;
+      const existingUser = await UserModel.findOne({ email });
       if (existingUser) {
          return res.status(400).json({ error: 'Email already exists' });
       }
-      const newUser = new UserModel(userObject);
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new UserModel({ name, email, password: hashedPassword });
       const savedUser = await newUser.save();
       res.status(201).json(savedUser);
    } catch (error) {
@@ -68,6 +64,7 @@ userRoutes.post('/logout', (req, res) => {
          if (err) {
             res.status(500).json({ error: "Failed to logout" });
          } else {
+            res.clearCookie('connect.sid');
             res.status(200).json("Logout successful");
          }
       });

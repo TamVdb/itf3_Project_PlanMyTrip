@@ -25,7 +25,7 @@ const Trip = ({
             <div className="px-4">
                <p>{description}</p>
             </div>
-            <div className="py-4 bg-custom-lightBlue">
+            <div className="py-2 px-4 bg-custom-lightBlue rounded-b-xl flex justify-between">
                <button onClick={() => onDone(id)}>Terminer</button>
                <button onClick={() => onDelete(id)}><FaTrashCan className="text-custom-wine" /></button>
             </div>
@@ -35,49 +35,49 @@ const Trip = ({
 };
 
 const TripList = ({
-   allTrips = [],
+   // allTrips = [],
    onTripDelete = (id) => { },
    onTripDone = (id) => { }
 }) => {
 
-   // const [allTrips, setAllTrips] = useState([
-   //    {
-   //       "id": 1,
-   //       "name": "A week in Barcelona",
-   //       "location": "Barcelona",
-   //       "start_date": "01/11/2024",
-   //       "end_date": "08/11/2024",
-   //       "days": 7,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   //    {
-   //       "id": 2,
-   //       "name": "Madness in London",
-   //       "location": "London",
-   //       "start_date": "02/08/2024",
-   //       "end_date": "05/08/2024",
-   //       "days": 3,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   //    {
-   //       "id": 3,
-   //       "name": "Boat trip in Greece",
-   //       "location": "Greece",
-   //       "start_date": "07/05/2024",
-   //       "end_date": "13/05/2024",
-   //       days: 6,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   //    {
-   //       "id": 4,
-   //       "name": "Adventures in Bali",
-   //       "location": "Bali",
-   //       "start_date": "03/07/2025",
-   //       "end_date": "17/07/2025",
-   //       "days": 14,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   // ]);
+   const [allTrips, setAllTrips] = useState([
+      {
+         "id": 1,
+         "name": "A week in Barcelona",
+         "location": "Barcelona",
+         "start_date": "01/11/2024",
+         "end_date": "08/11/2024",
+         "days": 7,
+         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      },
+      {
+         "id": 2,
+         "name": "Madness in London",
+         "location": "London",
+         "start_date": "02/08/2024",
+         "end_date": "05/08/2024",
+         "days": 3,
+         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      },
+      {
+         "id": 3,
+         "name": "Boat trip in Greece",
+         "location": "Greece",
+         "start_date": "07/05/2024",
+         "end_date": "13/05/2024",
+         days: 6,
+         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      },
+      {
+         "id": 4,
+         "name": "Adventures in Bali",
+         "location": "Bali",
+         "start_date": "03/07/2025",
+         "end_date": "17/07/2025",
+         "days": 14,
+         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      },
+   ]);
 
    return (
       <>
