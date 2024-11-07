@@ -28,3 +28,6 @@ dist-ssr
 # Misc
 .DS_Store
 desktop.ini
+
+#Environment
+*.env
