@@ -68,3 +68,9 @@
 .react-datepicker__view-calendar-icon input {
    padding:0.375rem 1rem 0.375rem 2.25rem !important;
 }
+
+.trip_done {
+   height:100%;
+   width:100%;
+   background-color: rgba(29, 53, 87, 0.5);
+}

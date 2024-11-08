@@ -1,12 +1,33 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteTrip, updateTrip, checkTrip } from '../../store/trip/trip.slice';
+import { openModal, swithToUpdatetrip } from '../../store/modal/modal.slice';
 import { FaLocationDot } from "react-icons/fa6";
 import { FaTrashCan } from "react-icons/fa6";
+import { FaPencil } from "react-icons/fa6";
 
-const Trip = ({
-   id, name, description, location, start_date, end_date, days,
-   onDone = (id) => { },
-   onDelete = (id) => { }
-}) => {
+const Trip = ({ id, name, description, location, start_date, end_date, days, isDone }) => {
+
+   const dispatch = useDispatch();
+
+   // Function to delete a trip
+   const handleTripDelete = () => {
+      dispatch(deleteTrip(id));
+   };
+
+   // // Function to update a trip
+   // const handleTripUpdate = () => {
+   //    dispatch(updateTrip(id));
+   // };
+
+   // Function to check when a trip is done
+   const handleTripDone = () => {
+      dispatch(checkTrip(id));
+   };
+
+   const handleUpdateTripClick = () => {
+      // dispatch(openModal('updateTrip'));
+      dispatch(swithToUpdatetrip());
+   };
 
    return (
       <>
@@ -17,72 +38,46 @@ const Trip = ({
             <div className="bg-custom-yellow text-white text-sm px-3 py-1 rounded w-fit mx-auto -mt-8">
                <p className="text-center">{days} days</p>
             </div>
-            <div className="px-4">
-               <p className="font-title font-semibold text-lg"><FaLocationDot className="inline-block text-custom-wine text-lg" /> {location}</p>
-               <p className="mt-1">{start_date} → {end_date}</p>
+            <div className="px-4 flex justify-between items-start">
+               <div className="flex flex-col justify-start">
+                  <p className="font-title font-semibold text-lg"><FaLocationDot className="inline-block text-custom-wine text-lg" /> {location}</p>
+                  <p className="mt-1">{start_date} → {end_date}</p>
+               </div>
+               <div className="flex justify-end">
+                  <button onClick={handleUpdateTripClick}><FaPencil className="inline-block text-green-600" /></button>
+                  {/* <button><FaPencil className="inline-block text-green-600" /></button> */}
+               </div>
             </div>
             <hr className="w-32 h-0.5 mx-auto bg-custom-blue border-0 rounded" />
             <div className="px-4">
                <p>{description}</p>
             </div>
             <div className="py-2 px-4 bg-custom-lightBlue rounded-b-xl flex justify-between">
-               <button onClick={() => onDone(id)}>Terminer</button>
-               <button onClick={() => onDelete(id)}><FaTrashCan className="text-custom-wine" /></button>
+               <div>
+                  <label>
+                     <input type="checkbox" checked={isDone}
+                        onChange={handleTripDone} // Gère le changement de la checkbox
+                     />
+                     <span className="ml-2">
+                        {isDone ? 'Done' : 'Upcoming'}
+                     </span>
+                  </label>
+               </div>
+               <button onClick={handleTripDelete}><FaTrashCan className="text-custom-wine" /></button>
             </div>
          </div>
       </>
    );
 };
 
-const TripList = ({
-   allTrips = [],
-   onTripDelete = (id) => { },
-   onTripDone = (id) => { }
-}) => {
+const TripList = () => {
 
-   // const [allTrips, setAllTrips] = useState([
-   //    {
-   //       "id": 1,
-   //       "name": "A week in Barcelona",
-   //       "location": "Barcelona",
-   //       "start_date": "01/11/2024",
-   //       "end_date": "08/11/2024",
-   //       "days": 7,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   //    {
-   //       "id": 2,
-   //       "name": "Madness in London",
-   //       "location": "London",
-   //       "start_date": "02/08/2024",
-   //       "end_date": "05/08/2024",
-   //       "days": 3,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   //    {
-   //       "id": 3,
-   //       "name": "Boat trip in Greece",
-   //       "location": "Greece",
-   //       "start_date": "07/05/2024",
-   //       "end_date": "13/05/2024",
-   //       days: 6,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   //    {
-   //       "id": 4,
-   //       "name": "Adventures in Bali",
-   //       "location": "Bali",
-   //       "start_date": "03/07/2025",
-   //       "end_date": "17/07/2025",
-   //       "days": 14,
-   //       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-   //    },
-   // ]);
+   const trips = useSelector((state) => state.trip.trips); // Récupère les voyages depuis Redux
 
    return (
       <>
-         {allTrips.map(trip => (
-            <Trip {...trip} key={trip.id} onDone={onTripDone} onDelete={onTripDelete} />
+         {trips.map(trip => (
+            <Trip {...trip} key={trip.id} />
          ))}
       </>
    );

@@ -13,9 +13,9 @@ import routes from './routes.jsx';
 const Router = createBrowserRouter(routes);
 
 createRoot(document.getElementById('root')).render(
-   <StrictMode>
-      <Provider store={store}>
-         <RouterProvider router={Router} />
-      </Provider>
-   </StrictMode>,
+   <Provider store={store}>
+      {/* <StrictMode> */}
+      <RouterProvider router={Router} />
+      {/* </StrictMode> */}
+   </Provider>
 );

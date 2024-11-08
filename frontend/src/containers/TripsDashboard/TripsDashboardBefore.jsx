@@ -1,17 +1,34 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { openModal, swithToAddtrip } from '../../store/modal/modal.slice';
+import { useState } from 'react';
 import { FaGlobeEurope } from 'react-icons/fa';
 import TripList from '../../components/TripList/TripList';
 import TripModal from '../TripModal/TripModal';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const TripsDashboard = () => {
 
-   const dispatch = useDispatch();
+   const location = useLocation(); // Get the current location that contains the url and state
    const { user } = useSelector((state) => state.auth);
 
+   const [trips, setTrips] = useState([]); // État pour stocker les trips
+   const [isTripModalVisible, setIsTripModalVisible] = useState(false); // État pour la visibilité du modal
+   const [tripModalType, setTripModalType] = useState(''); // État pour le type de modal ('addTrip' ou 'updateTrip')
+
+
+   // Fonction pour ajouter un nouveau trip
+   const handleNewTrip = (newTrip) => {
+      setTrips(prevTrips => [...prevTrips, newTrip]);
+      console.log('newTrip', newTrip);
+      setIsTripModalVisible(false); // Ferme le modal après ajout
+   };
+
+   const handleCloseModal = () => {
+      setIsTripModalVisible(false); // Ferme le modal
+   };
+
    const handleAddTripClick = () => {
-      // dispatch(openModal('addTrip'));
-      dispatch(swithToAddtrip());
+      setTripModalType('addTrip'); // Définit le type de modal à 'addTrip'
+      setIsTripModalVisible(true); // Ouvre le modal
    };
 
    return (
@@ -33,10 +50,15 @@ const TripsDashboard = () => {
             </div>
          </div>
 
-         <TripModal />
+         <TripModal
+            visible={isTripModalVisible}
+            modalType={tripModalType}
+            onClose={handleCloseModal}
+            onAddTrip={handleNewTrip} // Passe la fonction pour ajouter un trip
+         />
 
          <div className="container flex flex-row flex-wrap gap-5">
-            <TripList />
+            <TripList allTrips={trips} />
          </div>
       </>
    );

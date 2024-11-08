@@ -28,13 +28,8 @@ const AuthModal = () => {
             <button onClick={handleCloseModal} className="absolute top-4 right-4 font-semibold rounded-full bg-custom-blue text-white w-7 h-7">X</button>
 
             {/* Affiche Login ou Signup en fonction de modalType */}
-            {modalType === 'login' ? (
-               <Login onSwitchToSignup={handleSwitchToSignup}
-                  onSuccessfulConnection={handleCloseModal} />
-            ) : (
-               <Signup onSwitchToLogin={handleSwitchToLogin}
-                  onSuccessfulConnection={handleCloseModal} />
-            )}
+            {modalType === 'login' && <Login onSwitchToSignup={handleSwitchToSignup} onSuccessfulConnection={handleCloseModal} />}
+            {modalType === 'signup' && < Signup onSwitchToLogin={handleSwitchToLogin} onSuccessfulConnection={handleCloseModal} />}
          </div>
       </div>
    );

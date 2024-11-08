@@ -1,27 +1,24 @@
 import { useId, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addTrip } from '../../store/trip/trip.slice';
-import { closeModal } from '../../store/modal/modal.slice';
+import { nanoid } from 'nanoid';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-const TripAddForm = () => {
+const TripAddForm = ({ onAddTrip = () => { } }) => {
 
-   // Id for accessibility of the form
+   //? Id pour le formulaire (→ Accessiblité)
    const inputId = useId();
 
-   // State for the values of the form (→ Component controlled)
+   //? State pour les valeurs du formulaire (→ Composant controlé)
    const [tripName, setTripName] = useState('');
    const [tripDescription, setTripDescription] = useState('');
    const [tripLocation, setTripLocation] = useState('');
+   // const [tripStartDate, setTripStartDate] = useState('');
+   // const [tripEndDate, setTripEndDate] = useState('');
    const [tripStartDate, setTripStartDate] = useState('');
    const [tripEndDate, setTripEndDate] = useState('');
 
-   // Dispatch to add a new trip
-   const dispatch = useDispatch();
-
-   // Handle the submission of the form
-   const handleAddTrip = (e) => {
+   //? Confirmation du formulaire
+   const handleTripSubmit = (e) => {
       e.preventDefault();
 
       // Récupérer les dates de début et de fin du formulaire
@@ -34,19 +31,24 @@ const TripAddForm = () => {
       // Calculer le nombre de jours entre les dates de debut et de fin
       const days = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-      // Send the form data to the parent
-      dispatch(addTrip({
+      console.log(days);
+
+
+      // Récupérer les données du formulaire
+      const newTrip = {
+         id: nanoid(),
          name: tripName,
          description: tripDescription,
          location: tripLocation,
          start_date: startDate.toLocaleDateString(),
          end_date: endDate.toLocaleDateString(),
          days: days + 1
-      }));
+      };
 
-      dispatch(closeModal());
+      // Envoi du formulaire au composant parent
+      onAddTrip(newTrip);
 
-      // Form reset
+      // Reset du formulaire
       setTripName('');
       setTripDescription('');
       setTripLocation('');
@@ -60,7 +62,7 @@ const TripAddForm = () => {
          <h2 className='text-2xl text-custom-wine font-semibold text-center mb-5'>
             Add a new Trip
          </h2>
-         <form onSubmit={handleAddTrip} className='flex flex-col gap-3'>
+         <form onSubmit={handleTripSubmit} className='flex flex-col gap-3'>
             <div>
                <label htmlFor={inputId + 'name'} className='input-label'>Trip name</label>
                <input id={inputId + 'name'} type='text' className='input'
@@ -88,6 +90,8 @@ const TripAddForm = () => {
                   fixedHeight
                   className="input"
                />
+               {/* <input id={inputId + 'start-date'} type='text' className='input'
+                  value={tripStartDate} onChange={(e) => setTripStartDate(e.target.value)} /> */}
             </div>
             <div>
                <label htmlFor={inputId + 'end-date'} className='input-label'>End date</label>
@@ -102,6 +106,8 @@ const TripAddForm = () => {
                   fixedHeight
                   className="input"
                />
+               {/* <input id={inputId + 'end-date'} type='text' className='input'
+                  value={tripEndDate} onChange={(e) => setTripEndDate(e.target.value)} /> */}
             </div>
             <button type='submit' className='bg-custom-yellow text-white py-1.5 rounded-lg mt-4 block w-full hover:bg-custom-lightYellow transition-200'>
                Add a trip
