@@ -3,11 +3,12 @@ import { FaGlobeEurope } from 'react-icons/fa';
 import TripList from '../../components/TripList/TripList';
 import TripModal from '../TripModal/TripModal';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const TripsDashboard = () => {
 
    const location = useLocation(); // Get the current location that contains the url and state
-   const user = location.state?.user; // Get the user from the state
+   const { user } = useSelector((state) => state.auth);
 
    const [trips, setTrips] = useState([]); // État pour stocker les trips
    const [isTripModalVisible, setIsTripModalVisible] = useState(false); // État pour la visibilité du modal

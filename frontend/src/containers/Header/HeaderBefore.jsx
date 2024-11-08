@@ -1,10 +1,39 @@
+// import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Logout from '../../components/Logout/Logout';
+// import AuthModal from '../AuthModal/AuthModal';
 
 const Header = ({ onLoginClick, onSignUpClick }) => {
 
+   // const [isAuthModalVisible, setIsAuthModalVisible] = useState(false); // AuthModal visibility state
+   // const [authModalType, setAuthModalType] = useState('login'); // Either 'login' or 'signup'
+
    // Sélectionne l'utilisateur du state
    const { isSuccess } = useSelector((state) => state.user);
+
+   // const handleLoginModal = (e) => {
+   //    e.preventDefault();
+   //    setAuthModalType('login');
+   //    setIsAuthModalVisible(true);
+   // };
+
+   // const handleSignUpModal = (e) => {
+   //    e.preventDefault();
+   //    setAuthModalType('signup');
+   //    setIsAuthModalVisible(true);
+   // };
+
+   // const closeAuthModal = () => {
+   //    setIsAuthModalVisible(false);
+   // };
+
+   // const switchToLogin = () => {
+   //    setAuthModalType('login');
+   // };
+
+   // const switchToSignup = () => {
+   //    setAuthModalType('signup');
+   // };
 
    return (
       <>
@@ -23,6 +52,14 @@ const Header = ({ onLoginClick, onSignUpClick }) => {
                </nav>
             </div>
          </header>
+
+         {/* <AuthModal
+            visible={isAuthModalVisible}
+            modalType={authModalType}
+            onClose={closeAuthModal}
+            switchToLogin={switchToLogin}
+            switchToSignup={switchToSignup}
+         /> */}
       </>
    );
 };

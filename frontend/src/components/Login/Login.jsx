@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,17 +16,6 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
-   const { user } = useSelector((state) => state.auth);
-   const { isError, message } = useSelector((state) => state.user);
-
-   // // If user is logged in, redirect to trips
-   // useEffect(() => {
-   //    if (user) {
-   //       onSuccessfulConnection();
-   //       navigate('/trips', { state: { user } });
-   //    }
-   // }, [user, onSuccessfulConnection, navigate]);
-
    const handleLoginSubmit = async (e) => {
       e.preventDefault();
 
@@ -41,8 +30,7 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
 
          // Check if login was successful
          if (login.fulfilled.match(resultAction)) {
-            // Update credentials
-            dispatch(setCredentials(resultAction.payload));
+            dispatch(setCredentials(resultAction.payload)); // Update credentials
             onSuccessfulConnection();
             navigate('/trips', { state: { user: resultAction.payload.user } });
          }
