@@ -4,6 +4,7 @@ const dotenv = require('dotenv'); // To load environment variables from .env fil
 dotenv.config(); // Load environment variables from .env file
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
+const tripRoutes = require('./routes/tripRoutes');
 
 
 const port = process.env.PORT;
@@ -13,6 +14,7 @@ connectDB();
 const app = express(); // Create an instance of express
 
 app.use(express.json()); // To parse JSON in the request body
+app.use(express.urlencoded({ extended: false })); // Pour traiter les requêtes POST des formulaires
 app.use(cors({
    origin: process.env.API_URL, // Allow requests from this origin
    credentials: true // To allow cookies
@@ -20,6 +22,8 @@ app.use(cors({
 
 // Call the users route
 app.use('/api/users', userRoutes);
+// Call the trips route
+app.use('/api/trips', tripRoutes);
 
 
 app.listen(port, () => {
