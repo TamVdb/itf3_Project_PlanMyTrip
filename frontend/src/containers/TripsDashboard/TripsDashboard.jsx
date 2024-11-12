@@ -10,7 +10,6 @@ const TripsDashboard = () => {
    const { user } = useSelector((state) => state.auth);
 
    const handleAddTripClick = () => {
-      // dispatch(openModal('addTrip'));
       dispatch(swithToAddtrip());
    };
 

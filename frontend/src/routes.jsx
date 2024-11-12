@@ -1,6 +1,18 @@
 import HomePage from './pages/Home/HomePage';
 import TripsDashboardPage from './pages/Trips/TripsDashboardPage';
 import App from './App';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
+const ProtectedRoute = ({ children }) => {
+
+   const { user } = useSelector((state) => state.auth);
+
+   return user ? children : <Navigate to='/' replace />;
+};
+
+
+
 
 const routes = [
    {
@@ -13,7 +25,11 @@ const routes = [
          },
          {
             path: 'trips',
-            element: <TripsDashboardPage />
+            element: (
+               <ProtectedRoute>
+                  <TripsDashboardPage />
+               </ProtectedRoute>
+            )
          }
       ]
    }
