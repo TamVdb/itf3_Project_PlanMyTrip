@@ -6,7 +6,7 @@ const TripModel = require('../models/TripModel');
 // @access  Private
 const getTrips = async (req, res) => {
    try {
-      const trips = await TripModel.find();
+      const trips = await TripModel.find({ user: req.user._id });
       if (trips) {
          res.status(200).json(trips);
       }
@@ -20,7 +20,7 @@ const getTrips = async (req, res) => {
 // @access  Public
 const addTrip = async (req, res) => {
    try {
-      const trip = await TripModel.create(req.body);
+      const trip = await TripModel.create({ user: req.user._id, ...req.body });
       res.status(200).json(trip);
    } catch (error) {
       res.status(500).json({ error: error.message });
@@ -33,9 +33,23 @@ const addTrip = async (req, res) => {
 const updateTrip = async (req, res) => {
    try {
       const trip = await TripModel.findById(req.params.id);
+
       if (!trip) {
          return res.status(404).json({ error: 'Trip not found' });
       }
+
+      const user = await UserModel.findById(req.user._id);
+
+      // Check if user exists
+      if (!user) {
+         return res.status(401).json({ error: 'User not found' });
+      }
+
+      // Make sure the logged in user matches the trip user
+      if (trip.user.toString() !== user._id.toString()) {
+         return res.status(401).json({ error: 'Unauthorized' });
+      }
+
       const updatedTrip = await TripModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
       res.status(200).json(updatedTrip);
    } catch (error) {
@@ -49,9 +63,23 @@ const updateTrip = async (req, res) => {
 const deleteTrip = async (req, res) => {
    try {
       const trip = await TripModel.findById(req.params.id);
+
       if (!trip) {
          return res.status(404).json({ error: 'Trip not found' });
       }
+
+      const user = await UserModel.findById(req.user._id);
+
+      // Check if user exists
+      if (!user) {
+         return res.status(401).json({ error: 'User not found' });
+      }
+
+      // Make sure the logged in user matches the trip user
+      if (trip.user.toString() !== user._id.toString()) {
+         return res.status(401).json({ error: 'Unauthorized' });
+      }
+
       await trip.remove();
       res.status(200).json({ id: req.params.id });
    } catch (error) {

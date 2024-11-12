@@ -65,7 +65,7 @@ const loginUser = async (req, res) => {
 
 // @desc    Get user
 // @route   GET /api/users/user
-// @access  Public
+// @access  Private
 const getUser = async (req, res) => {
    try {
       if (!req.user) {
