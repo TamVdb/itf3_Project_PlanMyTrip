@@ -16,8 +16,6 @@ const userSlice = createSlice({
       builder
          .addCase(signup.pending, (state) => {
             state.isLoading = true;
-            state.isError = false;
-            state.isSuccess = false;
          })
          .addCase(signup.fulfilled, (state, action) => {
             state.isLoading = false;

@@ -10,12 +10,10 @@ const modalSlice = createSlice({
    initialState,
    reducers: {
       openModal: (state, action) => {
-         console.log('openModal triggered:', action.payload);
          state.isOpen = true;
          state.modalType = action.payload;
       },
       closeModal: (state) => {
-         console.log('closeModal triggered');
          state.isOpen = false;
          state.modalType = '';
       },
