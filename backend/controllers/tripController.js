@@ -1,5 +1,6 @@
 const express = require('express');
 const TripModel = require('../models/TripModel');
+const UserModel = require('../models/userModel');
 
 // @desc    Get trips
 // @route   GET /api/trips
@@ -80,9 +81,11 @@ const deleteTrip = async (req, res) => {
          return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      await trip.remove();
+      await trip.deleteOne();
       res.status(200).json({ id: req.params.id });
    } catch (error) {
+      console.log(error);
+
       res.status(500).json({ error: error.message });
    }
 };

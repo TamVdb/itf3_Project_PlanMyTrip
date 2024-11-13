@@ -5,7 +5,7 @@ const { protect } = require('../middleware/authMiddleware');
 const tripRoutes = express.Router();
 
 tripRoutes.post('/add', protect, addTrip);
-tripRoutes.get('/', protect, getTrips);
+tripRoutes.get('/get', protect, getTrips);
 tripRoutes.put('/update/:id', protect, updateTrip);
 tripRoutes.delete('/delete/:id', protect, deleteTrip);
 

@@ -1,23 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTrip, updateTrip, checkTrip } from '../../store/trip/trip.slice';
-import { openModal, swithToUpdatetrip } from '../../store/modal/modal.slice';
+import { getTrips, deleteTrip } from '../../store/trip/trip.service';
+import { swithToUpdatetrip } from '../../store/modal/modal.slice';
 import { FaLocationDot } from "react-icons/fa6";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaPencil } from "react-icons/fa6";
+import { useEffect } from 'react';
+import Spinner from '../Spinner/Spinner';
 
 const Trip = ({ id, name, description, location, start_date, end_date, days, isDone }) => {
 
    const dispatch = useDispatch();
+
 
    // Function to delete a trip
    const handleTripDelete = () => {
       dispatch(deleteTrip(id));
    };
 
-   // // Function to update a trip
-   // const handleTripUpdate = () => {
-   //    dispatch(updateTrip(id));
-   // };
+   // Function to update a trip
+   const handleTripUpdate = () => {
+      dispatch(updateTrip(id));
+   };
 
    // Function to check when a trip is done
    const handleTripDone = () => {
@@ -72,12 +75,27 @@ const Trip = ({ id, name, description, location, start_date, end_date, days, isD
 
 const TripList = () => {
 
-   const trips = useSelector((state) => state.trip.trips); // Récupère les voyages depuis Redux
+   const dispatch = useDispatch();
+
+   const { trips, isLoading, isError, message } = useSelector((state) => state.trips);
+
+   useEffect(() => {
+
+      if (isError) {
+         console.log('Error:', message);
+      }
+
+      dispatch(getTrips());
+   }, [dispatch, isError, message]);
+
+   if (isLoading) {
+      return <Spinner />;
+   }
 
    return (
       <>
          {trips.map(trip => (
-            <Trip {...trip} key={trip.id} />
+            <Trip key={trip.id} {...trip} />
          ))}
       </>
    );

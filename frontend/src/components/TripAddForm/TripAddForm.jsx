@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTrip } from '../../store/trip/trip.slice';
+import { addTrip } from '../../store/trip/trip.service';
 import { closeModal } from '../../store/modal/modal.slice';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -34,15 +34,17 @@ const TripAddForm = () => {
       // Calculer le nombre de jours entre les dates de debut et de fin
       const days = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-      // Send the form data to the parent
-      dispatch(addTrip({
+      const newTrip = {
          name: tripName,
          description: tripDescription,
          location: tripLocation,
          start_date: startDate.toLocaleDateString(),
          end_date: endDate.toLocaleDateString(),
          days: days + 1
-      }));
+      };
+
+      // Send the form data to the parent
+      dispatch(addTrip(newTrip));
 
       dispatch(closeModal());
 

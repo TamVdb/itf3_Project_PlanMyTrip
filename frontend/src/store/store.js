@@ -9,7 +9,7 @@ export const store = configureStore({
       auth: authReducer,
       user: userReducer,
       modal: modalReducer,
-      trip: tripReducer,
+      trips: tripReducer,
    },
 });
 
