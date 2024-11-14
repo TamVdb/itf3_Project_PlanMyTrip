@@ -1,15 +1,19 @@
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 export const handleSuccess = (message) => {
    toast.success(message, {
-      duration: 2000,
-      position: 'top-center',
+      position: "top-center",
+      autoClose: 2000,
+      closeOnClick: true,
+      pauseOnHover: false,
    });
 };
 
 export const handleError = (message) => {
    toast.error(message, {
-      duration: 2000,
-      position: 'top-center',
+      position: "top-center",
+      autoClose: 3000,
+      closeOnClick: true,
+      pauseOnHover: false,
    });
 };

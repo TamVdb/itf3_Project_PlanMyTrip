@@ -19,6 +19,7 @@ export const login = createAsyncThunk('auth/login', async (credentials, { reject
       const response = await axios.post(`${API_URL}/login`, credentials, { withCredentials: true });
       return response.data;
    } catch (error) {
+      // console.log(error.response.data);
       return rejectWithValue(error.response?.data || 'An error occurred');
    }
 });

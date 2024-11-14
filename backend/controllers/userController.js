@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
          });
       }
    } catch (error) {
-      console.error('Erreur lors de la création de l’utilisateur :', error);
+      // console.error('Erreur lors de la création de l’utilisateur :', error);
       res.status(500).json({ error: error.message });
    }
 };
@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
          res.status(404).json('User not found');
       }
    } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json('Invalid email or password');
    }
 };
 

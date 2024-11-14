@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/users/user.service';
 import { setCredentials } from '../../store/auth/auth.slice';
 import { handleError } from '../../utils';
-import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { } }) => {
 
@@ -26,23 +27,21 @@ const Login = ({ onSwitchToSignup = () => { }, onSuccessfulConnection = () => { 
 
       try {
          // Dispatch login action
-         const resultAction = await dispatch(login({ username, password }));
+         const resultAction = await dispatch(login({ username, password })).unwrap();
 
          // Check if login was successful
-         if (login.fulfilled.match(resultAction)) {
-            dispatch(setCredentials(resultAction.payload)); // Update credentials
-            onSuccessfulConnection();
-            navigate('/trips', { state: { user: resultAction.payload.user } });
-         }
+         dispatch(setCredentials(resultAction)); // Update credentials
+         onSuccessfulConnection();
+         navigate('/trips', { state: { user: resultAction.user } });
       } catch (error) {
-         console.error(error);
+         handleError(error);
       }
    };
 
 
    return (
       <>
-         <Toaster />
+         <ToastContainer />
          <div className="px-8 pt-16 pb-8">
             <h2 className="text-2xl text-custom-wine font-semibold font-title text-center mb-5">
                Log in to save your trips

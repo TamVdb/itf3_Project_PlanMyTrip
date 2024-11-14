@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../store/users/user.service';
 import { setCredentials } from '../../store/auth/auth.slice';
 import { handleError, handleSuccess } from '../../utils';
-import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = ({ onSwitchToLogin = () => { } }) => {
 
@@ -42,7 +43,7 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
 
    return (
       <>
-         <Toaster />
+         <ToastContainer />
          <div className="px-8 pt-16 pb-8">
             <h2 className="text-2xl text-custom-wine font-semibold font-title text-center mb-5">
                Sign up to save your trips

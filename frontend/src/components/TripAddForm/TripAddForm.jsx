@@ -110,7 +110,6 @@ const TripAddForm = () => {
             </button>
          </form>
       </div>
-
    );
 };
 
