@@ -28,7 +28,7 @@ const Trip = ({ id, name, description, location, startDate, endDate, days, isChe
 
    return (
       <>
-         <div className={`${isChecked ? 'trip_done' : ''} bg-white flex flex-col border border-custom-blue rounded-xl w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)] xl:w-[calc(25%-1rem)] gap-4`}>
+         <div className={`${isChecked ? 'trip_done' : ''} bg-white flex flex-col border border-custom-blue rounded-xl w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)] xl:w-[calc(25%-1rem)] gap-4 justify-between`}>
             <div className="rounded-t-xl bg-custom-blue py-6">
                <p className="font-semibold font-title text-xl text-white text-center pb-3">{name}</p>
             </div>

@@ -56,7 +56,7 @@ const TripsDashboard = () => {
 
          <TripModal />
 
-         <div className="container flex flex-row flex-wrap gap-5">
+         <div className="container flex flex-row flex-wrap gap-5 py-8">
             <TripList />
          </div>
       </>

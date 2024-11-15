@@ -1,9 +1,12 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTrip } from '../../store/trip/trip.service';
 import { closeModal } from '../../store/modal/modal.slice';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import axios from 'axios';
 
 const TripAddForm = () => {
 
@@ -16,6 +19,37 @@ const TripAddForm = () => {
    const [tripLocation, setTripLocation] = useState('');
    const [tripStartDate, setTripStartDate] = useState('');
    const [tripEndDate, setTripEndDate] = useState('');
+   const [mapPosition, setMapPosition] = useState(null);
+   const [suggestions, setSuggestions] = useState([]);
+
+   // Function to get suggestions from Nominatim API
+   const getSuggestions = async (query) => {
+      if (!query) {
+         setSuggestions([]);
+         return;
+      }
+      try {
+         const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&accept-language=en&limit=2`);
+         setSuggestions(response.data);
+      } catch (error) {
+         console.error('Error fetching suggestions:', error);
+      }
+   };
+
+   // Handle location change and fetch suggestions
+   const handleLocationChange = (e) => {
+      const query = e.target.value;
+      setTripLocation(query);
+      getSuggestions(query);
+   };
+
+   // Handle selecting a suggestion
+   const handleSuggestionClick = (suggestion) => {
+      const cleanLocation = suggestion.display_name.split(',')[0];
+      setTripLocation(cleanLocation);
+      setMapPosition([suggestion.lat, suggestion.lon]);
+      setSuggestions([]); // Clear suggestions
+   };
 
    // Dispatch to add a new trip
    const dispatch = useDispatch();
@@ -40,7 +74,8 @@ const TripAddForm = () => {
          location: tripLocation,
          startDate: rawStartDate.toLocaleDateString(),
          endDate: rawEndDate.toLocaleDateString(),
-         days: days + 1
+         days: days + 1,
+         coordinates: mapPosition
       };
 
       // Send the form data to the parent
@@ -54,6 +89,7 @@ const TripAddForm = () => {
       setTripLocation('');
       setTripStartDate('');
       setTripEndDate('');
+      setMapPosition(null);
    };
 
    return (
@@ -76,7 +112,33 @@ const TripAddForm = () => {
             <div>
                <label htmlFor={inputId + 'location'} className='input-label'>Location</label>
                <input id={inputId + 'location'} type='text' className='input'
-                  value={tripLocation} onChange={(e) => setTripLocation(e.target.value)} />
+                  value={tripLocation} onChange={handleLocationChange} />
+               {/* Suggestion dropdown */}
+               {suggestions.length > 0 && (
+                  <ul className="absolute bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-auto z-10">
+                     {suggestions.map((suggestion, index) => (
+                        <li key={index} className="p-2 hover:bg-gray-200 cursor-pointer"
+                           onClick={() => handleSuggestionClick(suggestion)}>
+                           {suggestion.display_name}
+                        </li>
+                     ))}
+                  </ul>
+               )}
+            </div>
+            <div>
+               {/* Display map if coordinates are available */}
+               {mapPosition && (
+                  <MapContainer center={mapPosition} zoom={10} style={{ height: "200px", width: "100%" }}>
+                     <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                     />
+                     <Marker position={mapPosition}>
+                        <Popup>
+                           {tripLocation}
+                        </Popup>
+                     </Marker>
+                  </MapContainer>
+               )}
             </div>
             <div>
                <label htmlFor={inputId + 'start-date'} className='input-label'>Start date</label>
