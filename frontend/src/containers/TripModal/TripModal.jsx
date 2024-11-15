@@ -14,7 +14,7 @@ const TripModal = () => {
       dispatch(closeModal());
    };
 
-   console.log('Modal State:', { isOpen, modalType });
+   // console.log('Modal State:', { isOpen, modalType });
 
    return (
       <div className="fixed top-0 left-0 w-full h-full z-50 bg-gray-700/50">

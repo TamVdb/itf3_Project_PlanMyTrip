@@ -25,11 +25,11 @@ const TripAddForm = () => {
       e.preventDefault();
 
       // Récupérer les dates de début et de fin du formulaire
-      const startDate = tripStartDate;
-      const endDate = tripEndDate;
+      const rawStartDate = tripStartDate;
+      const rawEndDate = tripEndDate;
 
       // Récupérer le temps en millisecondes entre les dates de début et de fin
-      const timeDiff = endDate.getTime() - startDate.getTime();
+      const timeDiff = rawEndDate.getTime() - rawStartDate.getTime();
 
       // Calculer le nombre de jours entre les dates de debut et de fin
       const days = Math.floor(timeDiff / (1000 * 3600 * 24));
@@ -38,8 +38,8 @@ const TripAddForm = () => {
          name: tripName,
          description: tripDescription,
          location: tripLocation,
-         start_date: startDate.toLocaleDateString(),
-         end_date: endDate.toLocaleDateString(),
+         startDate: rawStartDate.toLocaleDateString(),
+         endDate: rawEndDate.toLocaleDateString(),
          days: days + 1
       };
 

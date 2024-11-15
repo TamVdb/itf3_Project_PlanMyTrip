@@ -13,7 +13,7 @@ export const addTrip = createAsyncThunk('trips/add', async (tripData, { rejectWi
    }
 });
 
-// Action to read trips
+// Action to get trips
 export const getTrips = createAsyncThunk('trips/get', async (_, { rejectWithValue }) => {
    try {
       const response = await axios.get(`${API_URL}/get`, { withCredentials: true });
@@ -24,35 +24,52 @@ export const getTrips = createAsyncThunk('trips/get', async (_, { rejectWithValu
          name: trip.name,
          description: trip.description,
          location: trip.location,
-         start_date: trip.start_date,
-         end_date: trip.end_date,
-         days: trip.days
+         startDate: trip.startDate,
+         endDate: trip.endDate,
+         days: trip.days,
+         isChecked: trip.isChecked
       }));
-
-      console.log(data);
       return data;
    } catch (error) {
       return rejectWithValue(error.response?.data || 'An error occurred');
    }
 });
 
-// // Action to update a trip
-// export const login = createAsyncThunk('auth/login', async (credentials, { rejectWithValue }) => {
-//    try {
-//       const response = await axios.post(`${API_URL}/login`, credentials, { withCredentials: true });
-//       return response.data;
-//    } catch (error) {
-//       return rejectWithValue(error.response?.data || 'An error occurred');
-//    }
-// });
-
 // Action to uptdate a trip
+export const updateTrip = createAsyncThunk('trip/update', async (id, updatedTrip, { rejectWithValue }) => {
+   try {
+      const response = await axios.put(`${API_URL}/update/${id}`, updatedTrip, { withCredentials: true });
+
+      const data = response.data.map(trip => ({ id: trip._id, ...trip }));
+
+      return data;
+
+   } catch (error) {
+      return rejectWithValue(error.response?.data || 'An error occurred');
+   }
+});
 
 // Action to delete a trip
 export const deleteTrip = createAsyncThunk('trip/delete', async (id, { rejectWithValue }) => {
    try {
       const response = await axios.delete(`${API_URL}/delete/${id}`, { withCredentials: true });
       return response.data;
+   } catch (error) {
+      return rejectWithValue(error.response?.data || 'An error occurred');
+   }
+});
+
+// Action to check/uncheck a trip
+export const checkTrip = createAsyncThunk('trip/check', async (id, { rejectWithValue }) => {
+   try {
+      const response = await axios.patch(`${API_URL}/check/${id}`, {}, { withCredentials: true });
+
+      const updatedTrip = {
+         id: response.data._id,
+         ...response.data
+      };
+      return { updatedTrip };
+
    } catch (error) {
       return rejectWithValue(error.response?.data || 'An error occurred');
    }

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrips, deleteTrip } from '../../store/trip/trip.service';
+import { getTrips, deleteTrip, checkTrip } from '../../store/trip/trip.service';
 import { swithToUpdatetrip } from '../../store/modal/modal.slice';
 import { FaLocationDot } from "react-icons/fa6";
 import { FaTrashCan } from "react-icons/fa6";
@@ -7,7 +7,7 @@ import { FaPencil } from "react-icons/fa6";
 import { useEffect } from 'react';
 import Spinner from '../Spinner/Spinner';
 
-const Trip = ({ id, name, description, location, start_date, end_date, days, isDone }) => {
+const Trip = ({ id, name, description, location, startDate, endDate, days, isChecked }) => {
 
    const dispatch = useDispatch();
 
@@ -17,24 +17,18 @@ const Trip = ({ id, name, description, location, start_date, end_date, days, isD
       dispatch(deleteTrip(id));
    };
 
-   // Function to update a trip
-   const handleTripUpdate = () => {
-      dispatch(updateTrip(id));
-   };
-
    // Function to check when a trip is done
    const handleTripDone = () => {
       dispatch(checkTrip(id));
    };
 
    const handleUpdateTripClick = () => {
-      // dispatch(openModal('updateTrip'));
-      dispatch(swithToUpdatetrip());
+      dispatch(swithToUpdatetrip(id));
    };
 
    return (
       <>
-         <div className="bg-white flex flex-col border border-custom-blue rounded-xl w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)] xl:w-[calc(25%-1rem)] gap-4">
+         <div className={`${isChecked ? 'trip_done' : ''} bg-white flex flex-col border border-custom-blue rounded-xl w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)] xl:w-[calc(25%-1rem)] gap-4`}>
             <div className="rounded-t-xl bg-custom-blue py-6">
                <p className="font-semibold font-title text-xl text-white text-center pb-3">{name}</p>
             </div>
@@ -44,11 +38,10 @@ const Trip = ({ id, name, description, location, start_date, end_date, days, isD
             <div className="px-4 flex justify-between items-start">
                <div className="flex flex-col justify-start">
                   <p className="font-title font-semibold text-lg"><FaLocationDot className="inline-block text-custom-wine text-lg" /> {location}</p>
-                  <p className="mt-1">{start_date} → {end_date}</p>
+                  <p className="mt-1">{startDate} → {endDate}</p>
                </div>
                <div className="flex justify-end">
-                  <button onClick={handleUpdateTripClick}><FaPencil className="inline-block text-green-600" /></button>
-                  {/* <button><FaPencil className="inline-block text-green-600" /></button> */}
+                  <button onClick={handleUpdateTripClick} disabled={isChecked}><FaPencil className="inline-block text-green-600" /></button>
                </div>
             </div>
             <hr className="w-32 h-0.5 mx-auto bg-custom-blue border-0 rounded" />
@@ -58,11 +51,11 @@ const Trip = ({ id, name, description, location, start_date, end_date, days, isD
             <div className="py-2 px-4 bg-custom-lightBlue rounded-b-xl flex justify-between">
                <div>
                   <label>
-                     <input type="checkbox" checked={isDone}
+                     <input type="checkbox" checked={isChecked}
                         onChange={handleTripDone} // Gère le changement de la checkbox
                      />
                      <span className="ml-2">
-                        {isDone ? 'Done' : 'Upcoming'}
+                        {isChecked ? 'Done' : 'Upcoming'}
                      </span>
                   </label>
                </div>
@@ -81,9 +74,7 @@ const TripList = () => {
 
    useEffect(() => {
 
-      if (isError) {
-         console.log('Error:', message);
-      }
+      if (isError) { console.log('Error:', message); }
 
       dispatch(getTrips());
    }, [dispatch, isError, message]);

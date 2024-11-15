@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addTrip, getTrips, deleteTrip } from "./trip.service";
+import { addTrip, getTrips, deleteTrip, updateTrip, checkTrip } from "./trip.service";
 
 const initialState = {
    trips: [],
@@ -53,26 +53,41 @@ const tripSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
             state.message = action.payload;
+         })
+         .addCase(updateTrip.pending, (state) => {
+            state.isLoading = true;
+         })
+         .addCase(updateTrip.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.trips = state.trips.map(trip =>
+               trip.id === action.payload.id ? action.payload : trip
+            );
+         })
+         .addCase(updateTrip.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+         })
+         .addCase(checkTrip.pending, (state) => {
+            state.isLoading = true;
+         })
+         .addCase(checkTrip.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            const updatedTrip = action.payload.updatedTrip;
+            state.trips = state.trips.map(trip =>
+               trip.id === updatedTrip.id ? updatedTrip : trip
+            );
+         })
+         .addCase(checkTrip.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
          });
-
-
-
-
-      //    updateTrip: (state, action) => {
-      //       const { id, newName, newDescription, newLocation, newStart_date, newEnd_date, newDays } = action.payload;
-      //       state.trips = state.trips.map(trip => {
-      //          trip.id === id ? { ...trips, name: newName, description: newDescription, location: newLocation, start_date: newStart_date, end_date: newEnd_date, days: newDays } : trip;
-      //       });
-      //    },
-
-      //       checkTrip: (state, action) => {
-      //          const trip = state.trips.find(trip => trip.id === action.payload);
-      //          if (trip) {
-      //             trip.isDone = !trip.isDone;
-      //          }
-      //       },
    },
 });
+
 
 export const { reset } = tripSlice.actions;
 export default tripSlice.reducer;

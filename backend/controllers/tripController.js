@@ -33,26 +33,29 @@ const addTrip = async (req, res) => {
 // @access  Private
 const updateTrip = async (req, res) => {
    try {
-      const trip = await TripModel.findById(req.params.id);
+      const tripId = req.params.id;
 
+      // Check if trip exists
+      const trip = await TripModel.findById(tripId);
       if (!trip) {
          return res.status(404).json({ error: 'Trip not found' });
       }
 
-      const user = await UserModel.findById(req.user._id);
-
-      // Check if user exists
-      if (!user) {
-         return res.status(401).json({ error: 'User not found' });
-      }
-
       // Make sure the logged in user matches the trip user
-      if (trip.user.toString() !== user._id.toString()) {
-         return res.status(401).json({ error: 'Unauthorized' });
+      if (trip.user.toString() !== req.user._id.toString()) {
+         return res.status(403).json({ error: 'Unauthorized: You do not own this trip' });
       }
 
-      const updatedTrip = await TripModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      res.status(200).json(updatedTrip);
+      const updatedTrip = await TripModel.findByIdAndUpdate(tripId, req.body, { new: true });
+
+      // Réponse formatée avec `id` au lieu de `_id`
+      res.status(200).json({
+         id: updatedTrip._id, // Utilisez `id` pour le renvoyer
+         ...updatedTrip.toObject(), // Incluez les autres champs de l'objet
+      });
+      // console.log(updatedTrip);
+      // console.log(id);
+
    } catch (error) {
       res.status(500).json({ error: error.message });
    }
@@ -90,4 +93,40 @@ const deleteTrip = async (req, res) => {
    }
 };
 
-module.exports = { addTrip, getTrips, updateTrip, deleteTrip };
+// @desc    Check/uncheck trip as done
+// @route   PATCH /api/trips/check/:id
+// @access  Private
+const checkTrip = async (req, res) => {
+   try {
+      const tripId = req.params.id;
+
+      // Check if trip exists
+      const trip = await TripModel.findById(tripId);
+      if (!trip) {
+         return res.status(404).json({ error: 'Trip not found' });
+      }
+
+      if (!req.user || !req.user._id) {
+         return res.status(401).json({ error: 'User not authenticated' });
+      }
+
+      // Make sure the logged in user matches the trip user
+      if (trip.user.toString() !== req.user._id.toString()) {
+         return res.status(403).json({ error: 'Unauthorized: You do not own this trip' });
+      }
+
+      trip.isChecked = !trip.isChecked;
+      await trip.save();
+      // Retourne directement l'objet trip mis à jour avec `id` au lieu de `_id`
+      res.status(200).json({
+         id: trip._id,
+         ...trip.toObject()
+      });
+
+   } catch (error) {
+      res.status(500).json({ error: error.message });
+   }
+};
+
+
+module.exports = { addTrip, getTrips, updateTrip, deleteTrip, checkTrip };
