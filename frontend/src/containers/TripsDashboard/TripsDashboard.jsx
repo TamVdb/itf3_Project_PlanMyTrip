@@ -1,13 +1,35 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { openModal, swithToAddtrip } from '../../store/modal/modal.slice';
+import { useNavigate } from 'react-router-dom';
+import { swithToAddtrip } from '../../store/modal/modal.slice';
 import { FaGlobeEurope } from 'react-icons/fa';
+import { setCredentials, clearCredentials } from '../../store/auth/auth.slice';
 import TripList from '../../components/TripList/TripList';
 import TripModal from '../TripModal/TripModal';
 
 const TripsDashboard = () => {
 
    const dispatch = useDispatch();
+   const navigate = useNavigate();
+
    const { user } = useSelector((state) => state.auth);
+
+   useEffect(() => {
+      // Check if user is in localStorage
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+         const userData = JSON.parse(storedUser); // Get user data from localStorage
+         dispatch(setCredentials(userData)); // Update user state
+      } else {
+         dispatch(clearCredentials()); // If user is not logged in, logout
+      }
+   }, [dispatch]);
+
+   useEffect(() => {
+      if (!user) {
+         navigate('/');
+      }
+   }, [user, navigate]);
 
    const handleAddTripClick = () => {
       dispatch(swithToAddtrip());

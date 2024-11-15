@@ -3,8 +3,9 @@ import Logout from '../../components/Logout/Logout';
 
 const Header = ({ onLoginClick, onSignUpClick }) => {
 
-   // Sélectionne l'utilisateur du state
-   const { isSuccess } = useSelector((state) => state.user);
+   // Select user from state
+   const { user } = useSelector((state) => state.auth);
+   console.log("User state in Header:", user);
 
    return (
       <>
@@ -13,7 +14,7 @@ const Header = ({ onLoginClick, onSignUpClick }) => {
                <div className="font-logo text-custom-blue text-2xl sm:text-3xl">Plan My Trip</div>
                <nav className="flex justify-between items-center">
                   <ul className="flex items-center gap-4">
-                     {isSuccess ? <Logout /> : (
+                     {user ? <Logout /> : (
                         <>
                            <li><a href="#" onClick={onLoginClick} className="text-lg font-medium text-custom-blue hover:text-darkerText px-2 py-4">Log in</a></li>
                            <li><a href="#" onClick={onSignUpClick} className="text-lg font-medium text-custom-blue hover:text-darkerText px-2 py-4">Sign up</a></li>
