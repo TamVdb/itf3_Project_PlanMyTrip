@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { addTrip, getTrips, deleteTrip, updateTrip, checkTrip } from "./trip.service";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { addTrip, getTrips, getTrip, deleteTrip, updateTrip, checkTrip } from "./trip.service";
 
 const initialState = {
    trips: [],
+   currentTrip: null,
    isError: false,
    isSuccess: false,
    isLoading: false,
@@ -37,6 +38,19 @@ const tripSlice = createSlice({
             state.trips = action.payload;
          })
          .addCase(getTrips.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.message = action.payload;
+         })
+         .addCase(getTrip.pending, (state) => {
+            state.isLoading = true;
+         })
+         .addCase(getTrip.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.currentTrip = action.payload;
+         })
+         .addCase(getTrip.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.message = action.payload;

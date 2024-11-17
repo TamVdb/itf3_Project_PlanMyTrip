@@ -35,13 +35,36 @@ export const getTrips = createAsyncThunk('trips/get', async (_, { rejectWithValu
    }
 });
 
+
+// Action to get trip
+export const getTrip = createAsyncThunk('trip/get', async (id, { rejectWithValue }) => {
+   try {
+      const response = await axios.get(`${API_URL}/get/${id}`, { withCredentials: true });
+
+      // Mapping => Convertir les données de l'API en format adapté a l'app
+      const trip = response.data;
+      const data = {
+         id: trip._id,
+         name: trip.name,
+         description: trip.description,
+         location: trip.location,
+         startDate: trip.startDate,
+         endDate: trip.endDate,
+         days: trip.days,
+         isChecked: trip.isChecked
+      };
+      return data;
+   } catch (error) {
+      return rejectWithValue(error.response?.data || 'An error occurred');
+   }
+});
+
 // Action to uptdate a trip
 export const updateTrip = createAsyncThunk('trip/update', async (id, updatedTrip, { rejectWithValue }) => {
    try {
-      const response = await axios.put(`${API_URL}/update/${id}`, updatedTrip, { withCredentials: true });
+      const response = await axios.put(`${API_URL} / update / ${id}`, updatedTrip, { withCredentials: true });
 
-      const data = response.data.map(trip => ({ id: trip._id, ...trip }));
-
+      const data = { id: response.data_id, ...response.data };
       return data;
 
    } catch (error) {
@@ -52,7 +75,7 @@ export const updateTrip = createAsyncThunk('trip/update', async (id, updatedTrip
 // Action to delete a trip
 export const deleteTrip = createAsyncThunk('trip/delete', async (id, { rejectWithValue }) => {
    try {
-      const response = await axios.delete(`${API_URL}/delete/${id}`, { withCredentials: true });
+      const response = await axios.delete(`${API_URL} / delete/${id}`, { withCredentials: true });
       return response.data;
    } catch (error) {
       return rejectWithValue(error.response?.data || 'An error occurred');

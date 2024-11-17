@@ -16,6 +16,22 @@ const getTrips = async (req, res) => {
    }
 };
 
+
+// @desc    Get trip
+// @route   GET /api/trip/:id
+// @access  Private
+const getTrip = async (req, res) => {
+   try {
+      const trip = await TripModel.findById(req.params.id);
+      if (!trip) {
+         return res.status(404).json({ error: 'Trip not found' });
+      }
+      res.status(200).json(trip);
+   } catch (error) {
+      res.status(500).json({ error: 'Erreur interne' });
+   }
+};
+
 // @desc    Create a new trip
 // @route   POST /api/trips/add
 // @access  Public
@@ -129,4 +145,4 @@ const checkTrip = async (req, res) => {
 };
 
 
-module.exports = { addTrip, getTrips, updateTrip, deleteTrip, checkTrip };
+module.exports = { addTrip, getTrips, updateTrip, deleteTrip, checkTrip, getTrip };

@@ -6,10 +6,12 @@ import { FaTrashCan } from "react-icons/fa6";
 import { FaPencil } from "react-icons/fa6";
 import { useEffect } from 'react';
 import Spinner from '../Spinner/Spinner';
+import { useNavigate } from 'react-router-dom';
 
 const Trip = ({ id, name, description, location, startDate, endDate, days, isChecked }) => {
 
    const dispatch = useDispatch();
+   const navigate = useNavigate();
 
 
    // Function to delete a trip
@@ -26,10 +28,15 @@ const Trip = ({ id, name, description, location, startDate, endDate, days, isChe
       dispatch(swithToUpdatetrip(id));
    };
 
+   // Function to navigate to the trip page
+   const handleTripClick = () => {
+      navigate(`/trip/${id}`);
+   };
+
    return (
       <>
          <div className={`${isChecked ? 'trip_done' : ''} bg-white flex flex-col border border-custom-blue rounded-xl w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)] xl:w-[calc(25%-1rem)] gap-4 justify-between`}>
-            <div className="rounded-t-xl bg-custom-blue py-6">
+            <div className="rounded-t-xl bg-custom-blue py-6 cursor-pointer" onClick={handleTripClick}>
                <p className="font-semibold font-title text-xl text-white text-center pb-3">{name}</p>
             </div>
             <div className="bg-custom-yellow text-white text-sm px-3 py-1 rounded w-fit mx-auto -mt-8">
