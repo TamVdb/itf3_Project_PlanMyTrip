@@ -54,6 +54,20 @@
    background-repeat: no-repeat;
 }
 
+.trip_list {
+    &::after {
+      content: '';
+      flex: auto;
+   }
+}
+
+.day_list {
+    &::after {
+      content: '';
+      flex: auto;
+   }
+}
+
 .react-datepicker-wrapper {
    width:100%;
 }

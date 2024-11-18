@@ -51,9 +51,8 @@ const TripDetails = ({ trip }) => {
                </div>
             </div>
 
-            <div className="flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
+            <div className="day_list flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
                <Days days={trip.days} />
-
             </div>
          </div>
       </>
