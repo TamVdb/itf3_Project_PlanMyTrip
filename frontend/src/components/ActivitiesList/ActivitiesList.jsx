@@ -1,5 +1,4 @@
-import { FaTrashCan } from "react-icons/fa6";
-import { FaPencil } from "react-icons/fa6";
+import { FaTrashCan, FaPencil } from "react-icons/fa6";
 
 const Activity = ({ id, name, address, duration, price, onUpdateActivity, onDeleteActivity }) => {
 
