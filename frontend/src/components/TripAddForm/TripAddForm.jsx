@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTrip } from '../../store/trip/trip.service';
+import { addTrip } from '../../store/trip/trip.action';
 import { closeModal } from '../../store/modal/modal.slice';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,8 +17,8 @@ const TripAddForm = () => {
    const [tripName, setTripName] = useState('');
    const [tripDescription, setTripDescription] = useState('');
    const [tripLocation, setTripLocation] = useState('');
-   const [tripStartDate, setTripStartDate] = useState('');
-   const [tripEndDate, setTripEndDate] = useState('');
+   const [tripStartDate, setTripStartDate] = useState(null);
+   const [tripEndDate, setTripEndDate] = useState(null);
    const [mapPosition, setMapPosition] = useState(null);
    const [suggestions, setSuggestions] = useState([]);
 
@@ -87,8 +87,8 @@ const TripAddForm = () => {
       setTripName('');
       setTripDescription('');
       setTripLocation('');
-      setTripStartDate('');
-      setTripEndDate('');
+      setTripStartDate(null);
+      setTripEndDate(null);
       setMapPosition(null);
    };
 
@@ -147,7 +147,12 @@ const TripAddForm = () => {
                   id={inputId + 'start-date'}
                   showIcon
                   selected={tripStartDate}
-                  onChange={(date) => setTripStartDate(date)}
+                  onChange={(date) => {
+                     setTripStartDate(date);
+                     if (tripEndDate && date > tripEndDate) {
+                        setTripEndDate(date);
+                     }
+                  }}
                   dateFormat="dd/MM/yyyy"
                   fixedHeight
                   className="input"

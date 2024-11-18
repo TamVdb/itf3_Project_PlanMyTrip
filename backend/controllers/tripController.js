@@ -53,6 +53,7 @@ const updateTrip = async (req, res) => {
 
       // Check if trip exists
       const trip = await TripModel.findById(tripId);
+      // console.log("Trip id", tripId);
       if (!trip) {
          return res.status(404).json({ error: 'Trip not found' });
       }
@@ -65,12 +66,9 @@ const updateTrip = async (req, res) => {
       const updatedTrip = await TripModel.findByIdAndUpdate(tripId, req.body, { new: true });
 
       // Réponse formatée avec `id` au lieu de `_id`
-      res.status(200).json({
-         id: updatedTrip._id, // Utilisez `id` pour le renvoyer
-         ...updatedTrip.toObject(), // Incluez les autres champs de l'objet
-      });
-      // console.log(updatedTrip);
-      // console.log(id);
+      res.status(200).json({ id: tripId, updatedTrip });
+      // console.log("ID", tripId);
+      // console.log("Updated trip", updatedTrip);
 
    } catch (error) {
       res.status(500).json({ error: error.message });
