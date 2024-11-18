@@ -1,12 +1,32 @@
 import ActivitiesList from '../../components/ActivitiesList/ActivitiesList';
 import { Link } from 'react-router-dom';
-import { FaGlobeEurope } from 'react-icons/fa';
-import { FaPlus } from "react-icons/fa6";
+import { FaGlobeEurope, FaPlus } from 'react-icons/fa';
 import Days from '../Days/Days';
 
 const TripDetails = ({ trip }) => {
 
+   const [currentPage, setCurrentPage] = useState(1);
+   const daysPerPage = 8;
+
    if (!trip) { return <div>No trip details available</div>; }
+
+   // Calculate the total number of pages
+   const totalPages = Math.ceil(trip.days / daysPerPage);
+
+   // Set the number of days to be displayed on the current page
+   const startIndex = (currentPage - 1) * daysPerPage;
+   const endIndex = startIndex + daysPerPage;
+
+   // Get the days to be displayed on the current page
+   const visibleDays = trip.days.slice(startIndex, endIndex);
+
+   const handleNextPage = () => {
+      if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+   };
+
+   const handlePreviousPage = () => {
+      if (currentPage > 1) setCurrentPage(currentPage - 1);
+   };
 
    // Si les activités ne sont pas définies, définissez-les sur un tableau vide pour éviter les erreurs 
    const activities = trip.activities || [];
