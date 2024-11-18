@@ -70,8 +70,6 @@
 }
 
 .trip_done {
-   height:100%;
-   width:100%;
    background-color: rgba(29, 53, 87, 0.5);
 }
 .react-datepicker-popper {
