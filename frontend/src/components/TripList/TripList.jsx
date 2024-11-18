@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrips, deleteTrip, checkTrip } from '../../store/trip/trip.action';
 import { swithToUpdatetrip } from '../../store/modal/modal.slice';
-import { FaLocationDot } from "react-icons/fa6";
-import { FaTrashCan } from "react-icons/fa6";
-import { FaPencil } from "react-icons/fa6";
+import { FaLocationDot, FaTrashCan, FaPencil } from "react-icons/fa6";
 import { useEffect } from 'react';
 import Spinner from '../Spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
