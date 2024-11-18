@@ -1,8 +1,9 @@
-import TripDetails from '../../containers/TripDetails/TripDetails';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { getTrip } from '../../store/trip/trip.action';
+import TripDetails from '../../containers/TripDetails/TripDetails';
+import Spinner from '../../components/Spinner/Spinner';
 
 const TripPage = () => {
 
@@ -15,9 +16,7 @@ const TripPage = () => {
    }, [dispatch, id]);
 
    if (isLoading) {
-      console.error(message);
-
-      return <div>Loading...</div>;
+      return <Spinner />;
    }
 
    if (isError) {
