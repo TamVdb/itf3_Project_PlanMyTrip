@@ -1,5 +1,5 @@
-import { createSlice, current } from "@reduxjs/toolkit";
-import { addTrip, getTrips, getTrip, deleteTrip, updateTrip, checkTrip } from "./trip.service";
+import { createSlice } from "@reduxjs/toolkit";
+import { addTrip, getTrips, getTrip, deleteTrip, updateTrip, checkTrip } from "./trip.action";
 
 const initialState = {
    trips: [],
@@ -23,6 +23,7 @@ const tripSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.trips.push(action.payload);
+            console.log(action.payload);
          })
          .addCase(addTrip.rejected, (state, action) => {
             state.isLoading = false;
@@ -59,9 +60,10 @@ const tripSlice = createSlice({
             state.isLoading = true;
          })
          .addCase(deleteTrip.fulfilled, (state, action) => {
+            const tripIdToDelete = action.payload.id;
             state.isLoading = false;
             state.isSuccess = true;
-            state.trips = state.trips.filter(trip => trip.id !== action.payload.id);
+            state.trips = state.trips.filter(trip => trip.id !== tripIdToDelete);
          })
          .addCase(deleteTrip.rejected, (state, action) => {
             state.isLoading = false;
@@ -72,11 +74,13 @@ const tripSlice = createSlice({
             state.isLoading = true;
          })
          .addCase(updateTrip.fulfilled, (state, action) => {
+            const tripIdToUpdate = action.payload.id;
             state.isLoading = false;
             state.isSuccess = true;
-            state.trips = state.trips.map(trip =>
-               trip.id === action.payload.id ? action.payload : trip
+            const updatedTrips = state.trips.map(trip =>
+               trip.id === tripIdToUpdate ? { ...trip, ...action.payload } : trip
             );
+            state.trips = updatedTrips;
          })
          .addCase(updateTrip.rejected, (state, action) => {
             state.isLoading = false;
@@ -89,9 +93,9 @@ const tripSlice = createSlice({
          .addCase(checkTrip.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            const updatedTrip = action.payload.updatedTrip;
+            const isCheckedTrip = action.payload.isCheckedTrip;
             state.trips = state.trips.map(trip =>
-               trip.id === updatedTrip.id ? updatedTrip : trip
+               trip.id === isCheckedTrip.id ? isCheckedTrip : trip
             );
          })
          .addCase(checkTrip.rejected, (state, action) => {

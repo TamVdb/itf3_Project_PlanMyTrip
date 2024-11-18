@@ -2,7 +2,7 @@ import TripDetails from '../../containers/TripDetails/TripDetails';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrip } from '../../store/trip/trip.service';
+import { getTrip } from '../../store/trip/trip.action';
 
 const TripPage = () => {
 

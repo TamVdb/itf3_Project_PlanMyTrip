@@ -1,6 +1,6 @@
 import { useId, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateTrip } from '../../store/trip/trip.service';
+import { updateTrip } from '../../store/trip/trip.action';
 import { closeModal } from '../../store/modal/modal.slice';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,9 +20,6 @@ const TripUpdateForm = () => {
    const dispatch = useDispatch();
    const currentTripId = useSelector((state) => state.modal.currentTripId);
    const trip = useSelector((state) => state.trips.trips.find(trip => trip.id === currentTripId));
-
-   console.log(currentTripId);
-   console.log(trip);
 
    useEffect(() => {
       if (trip) {
@@ -62,7 +59,7 @@ const TripUpdateForm = () => {
          days: days + 1
       };
 
-      dispatch(updateTrip(currentTripId, updatedTrip));
+      dispatch(updateTrip({ id: currentTripId, updatedTrip }));
 
       dispatch(closeModal());
    };

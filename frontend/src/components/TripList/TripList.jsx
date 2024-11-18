@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrips, deleteTrip, checkTrip } from '../../store/trip/trip.service';
+import { getTrips, deleteTrip, checkTrip } from '../../store/trip/trip.action';
 import { swithToUpdatetrip } from '../../store/modal/modal.slice';
 import { FaLocationDot } from "react-icons/fa6";
 import { FaTrashCan } from "react-icons/fa6";
