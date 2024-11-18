@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { logout } from '../../store/users/user.service';
+import { logout } from '../../store/users/user.action';
 import { clearCredentials } from '../../store/auth/auth.slice';
 import { useNavigate } from "react-router-dom";
 

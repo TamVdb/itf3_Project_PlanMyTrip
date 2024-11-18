@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { signup } from '../../store/users/user.service';
+import { signup } from '../../store/users/user.action';
 import { setCredentials } from '../../store/auth/auth.slice';
 import { handleError, handleSuccess } from '../../utils';
 import { ToastContainer } from 'react-toastify';

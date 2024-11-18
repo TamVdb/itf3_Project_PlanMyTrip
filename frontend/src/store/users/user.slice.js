@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signup, login, logout } from '../users/user.service';
+import { signup, login, logout } from './user.action';
 
 const initialState = {
    isError: false,

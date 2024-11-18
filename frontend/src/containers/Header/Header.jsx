@@ -5,7 +5,7 @@ const Header = ({ onLoginClick, onSignUpClick }) => {
 
    // Select user from state
    const { user } = useSelector((state) => state.auth);
-   console.log("User state in Header:", user);
+   // console.log("User state in Header:", user);
 
    return (
       <>
