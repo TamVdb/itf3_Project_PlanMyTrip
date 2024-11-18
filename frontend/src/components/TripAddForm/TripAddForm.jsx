@@ -7,6 +7,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
+import { handleError } from '../../utils';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TripAddForm = () => {
 
@@ -68,6 +71,12 @@ const TripAddForm = () => {
       // Calculer le nombre de jours entre les dates de debut et de fin
       const days = Math.floor(timeDiff / (1000 * 3600 * 24));
 
+      // Check if the trip duration exceeds 365 days
+      if (days > 365) {
+         handleError('The trip duration cannot exceed 365 days.');
+         return;
+      }
+
       const newTrip = {
          name: tripName,
          description: tripDescription,
@@ -93,90 +102,92 @@ const TripAddForm = () => {
    };
 
    return (
-
-      <div className="px-8 pt-16 pb-8">
-         <h2 className='text-2xl text-custom-wine font-semibold text-center mb-5'>
-            Add a new Trip
-         </h2>
-         <form onSubmit={handleAddTrip} className='flex flex-col gap-3'>
-            <div>
-               <label htmlFor={inputId + 'name'} className='input-label'>Trip name</label>
-               <input id={inputId + 'name'} type='text' className='input'
-                  value={tripName} onChange={(e) => setTripName(e.target.value)} />
-            </div>
-            <div>
-               <label htmlFor={inputId + 'description'} className='input-label'>Description</label>
-               <textarea id={inputId + 'description'} className='input' rows={3}
-                  value={tripDescription} onChange={(e) => setTripDescription(e.target.value)} />
-            </div>
-            <div>
-               <label htmlFor={inputId + 'location'} className='input-label'>Location</label>
-               <input id={inputId + 'location'} type='text' className='input'
-                  value={tripLocation} onChange={handleLocationChange} />
-               {/* Suggestion dropdown */}
-               {suggestions.length > 0 && (
-                  <ul className="absolute bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-auto z-10">
-                     {suggestions.map((suggestion, index) => (
-                        <li key={index} className="p-2 hover:bg-gray-200 cursor-pointer"
-                           onClick={() => handleSuggestionClick(suggestion)}>
-                           {suggestion.display_name}
-                        </li>
-                     ))}
-                  </ul>
-               )}
-            </div>
-            <div>
-               {/* Display map if coordinates are available */}
-               {mapPosition && (
-                  <MapContainer center={mapPosition} zoom={10} style={{ height: "200px", width: "100%" }}>
-                     <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                     />
-                     <Marker position={mapPosition}>
-                        <Popup>
-                           {tripLocation}
-                        </Popup>
-                     </Marker>
-                  </MapContainer>
-               )}
-            </div>
-            <div>
-               <label htmlFor={inputId + 'start-date'} className='input-label'>Start date</label>
-               <DatePicker
-                  placeholderText="Click to select a date"
-                  id={inputId + 'start-date'}
-                  showIcon
-                  selected={tripStartDate}
-                  onChange={(date) => {
-                     setTripStartDate(date);
-                     if (tripEndDate && date > tripEndDate) {
-                        setTripEndDate(date);
-                     }
-                  }}
-                  dateFormat="dd/MM/yyyy"
-                  fixedHeight
-                  className="input"
-               />
-            </div>
-            <div>
-               <label htmlFor={inputId + 'end-date'} className='input-label'>End date</label>
-               <DatePicker
-                  placeholderText="Click to select a date"
-                  id={inputId + 'end-date'}
-                  showIcon
-                  selected={tripEndDate}
-                  minDate={tripStartDate}
-                  onChange={(date) => setTripEndDate(date)}
-                  dateFormat="dd/MM/yyyy"
-                  fixedHeight
-                  className="input"
-               />
-            </div>
-            <button type='submit' className='bg-custom-yellow text-white py-1.5 rounded-lg mt-4 block w-full hover:bg-custom-lightYellow transition-200'>
-               Add a trip
-            </button>
-         </form>
-      </div>
+      <>
+         <ToastContainer />
+         <div className="px-8 pt-16 pb-8">
+            <h2 className='text-2xl text-custom-wine font-semibold text-center mb-5'>
+               Add a new Trip
+            </h2>
+            <form onSubmit={handleAddTrip} className='flex flex-col gap-3'>
+               <div>
+                  <label htmlFor={inputId + 'name'} className='input-label'>Trip name</label>
+                  <input id={inputId + 'name'} type='text' className='input'
+                     value={tripName} onChange={(e) => setTripName(e.target.value)} />
+               </div>
+               <div>
+                  <label htmlFor={inputId + 'description'} className='input-label'>Description</label>
+                  <textarea id={inputId + 'description'} className='input' rows={3}
+                     value={tripDescription} onChange={(e) => setTripDescription(e.target.value)} />
+               </div>
+               <div>
+                  <label htmlFor={inputId + 'location'} className='input-label'>Location</label>
+                  <input id={inputId + 'location'} type='text' className='input'
+                     value={tripLocation} onChange={handleLocationChange} />
+                  {/* Suggestion dropdown */}
+                  {suggestions.length > 0 && (
+                     <ul className="absolute bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-auto z-10">
+                        {suggestions.map((suggestion, index) => (
+                           <li key={index} className="p-2 hover:bg-gray-200 cursor-pointer"
+                              onClick={() => handleSuggestionClick(suggestion)}>
+                              {suggestion.display_name}
+                           </li>
+                        ))}
+                     </ul>
+                  )}
+               </div>
+               <div>
+                  {/* Display map if coordinates are available */}
+                  {mapPosition && (
+                     <MapContainer center={mapPosition} zoom={10} style={{ height: "200px", width: "100%" }}>
+                        <TileLayer
+                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={mapPosition}>
+                           <Popup>
+                              {tripLocation}
+                           </Popup>
+                        </Marker>
+                     </MapContainer>
+                  )}
+               </div>
+               <div>
+                  <label htmlFor={inputId + 'start-date'} className='input-label'>Start date</label>
+                  <DatePicker
+                     placeholderText="Click to select a date"
+                     id={inputId + 'start-date'}
+                     showIcon
+                     selected={tripStartDate}
+                     onChange={(date) => {
+                        setTripStartDate(date);
+                        if (tripEndDate && date > tripEndDate) {
+                           setTripEndDate(date);
+                        }
+                     }}
+                     dateFormat="dd/MM/yyyy"
+                     fixedHeight
+                     className="input"
+                  />
+               </div>
+               <div>
+                  <label htmlFor={inputId + 'end-date'} className='input-label'>End date</label>
+                  <DatePicker
+                     placeholderText="Click to select a date"
+                     id={inputId + 'end-date'}
+                     showIcon
+                     selected={tripEndDate}
+                     minDate={tripStartDate}
+                     onChange={(date) => setTripEndDate(date)}
+                     dateFormat="dd/MM/yyyy"
+                     fixedHeight
+                     className="input"
+                  />
+               </div>
+               <button type='submit' className='bg-custom-yellow text-white py-1.5 rounded-lg mt-4 block w-full hover:bg-custom-lightYellow transition-200'>
+                  Add a trip
+               </button>
+            </form>
+         </div>
+      </>
    );
 };
 
