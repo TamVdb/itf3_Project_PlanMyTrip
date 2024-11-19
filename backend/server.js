@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const tripRoutes = require('./routes/tripRoutes');
+const activityRoutes = require('./routes/activityRoutes');
 
 
 const port = process.env.PORT;
@@ -27,6 +28,8 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 // Call the trips route
 app.use('/api/trips', tripRoutes);
+// Call the activities route
+app.use('/api/trip', activityRoutes);
 
 
 app.listen(port, () => {

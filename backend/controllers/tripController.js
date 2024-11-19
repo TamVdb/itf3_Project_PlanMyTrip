@@ -34,7 +34,7 @@ const getTrip = async (req, res) => {
 
 // @desc    Create a new trip
 // @route   POST /api/trips/add
-// @access  Public
+// @access  Private
 const addTrip = async (req, res) => {
    try {
       const trip = await TripModel.create({ user: req.user._id, ...req.body });
