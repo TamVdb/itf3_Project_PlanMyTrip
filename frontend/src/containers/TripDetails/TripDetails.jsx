@@ -1,7 +1,8 @@
 import ActivitiesList from '../../components/ActivitiesList/ActivitiesList';
 import { Link } from 'react-router-dom';
 import { FaGlobeEurope, FaPlus } from 'react-icons/fa';
-import Days from '../Days/Days';
+import Day from '../Day/Day';
+import { useState } from 'react';
 
 const TripDetails = ({ trip }) => {
 
@@ -13,12 +14,23 @@ const TripDetails = ({ trip }) => {
    // Calculate the total number of pages
    const totalPages = Math.ceil(trip.days / daysPerPage);
 
+   // Create an array of numbers from 1 to the total number of days
+   const daysArray = [];
+   for (let i = 1; i <= trip.days; i++) {
+      daysArray.push(i);
+   }
+
+   console.log(daysArray);
+
+
    // Set the number of days to be displayed on the current page
    const startIndex = (currentPage - 1) * daysPerPage;
    const endIndex = startIndex + daysPerPage;
 
    // Get the days to be displayed on the current page
-   const visibleDays = trip.days.slice(startIndex, endIndex);
+   const visibleDays = daysArray.slice(startIndex, endIndex);
+   console.log(visibleDays);
+
 
    const handleNextPage = () => {
       if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -53,8 +65,6 @@ const TripDetails = ({ trip }) => {
             </div>
          </div>
 
-
-
          <div className="container flex flex-row flex-wrap gap-5 py-8 justify-between">
             <div className="flex flex-col w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(25%-1.25rem)]">
                <div className="flex flex-col bg-custom-blue items-center w-full p-4 justify-between gap-4">
@@ -72,8 +82,32 @@ const TripDetails = ({ trip }) => {
             </div>
 
             <div className="day_list flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
-               <Days days={trip.days} />
+               {visibleDays.map(day => (
+                  <Day key={day} nbDay={day} />
+               ))}
             </div>
+         </div>
+
+         <div className="flex justify-center items-center gap-4 mb-8">
+            <button className={`px-3 py-1 rounded cursor-pointer font-medium transition-200 ${currentPage === 1
+               ? 'bg-custom-lightYellow cursor-not-allowed'
+               : 'bg-custom-yellow  hover:bg-custom-lightYellow'
+               }`}
+               onClick={handlePreviousPage}
+               disabled={currentPage === 1}
+            >Previous
+            </button>
+            <p>
+               Page {currentPage} of {totalPages}
+            </p>
+            <button className={`px-3 py-1 rounded cursor-pointer font-medium transition-200 ${currentPage === totalPages
+               ? 'bg-custom-lightYellow cursor-not-allowed'
+               : 'bg-custom-yellow  hover:bg-custom-lightYellow'
+               }`}
+               onClick={handleNextPage}
+               disabled={currentPage === totalPages}
+            >Next
+            </button>
          </div>
       </>
    );

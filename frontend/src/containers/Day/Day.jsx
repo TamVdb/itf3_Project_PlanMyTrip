@@ -13,19 +13,19 @@ const Day = ({ nbDay }) => {
    );
 };
 
-const Days = ({ days }) => {
+// const Days = ({ days }) => {
 
-   const dayCards = [];
+//    const dayCards = [];
 
-   for (let i = 1; i <= days; i++) {
-      dayCards.push(<Day key={i} nbDay={i} />);
-   }
+//    for (let i = 1; i <= days; i++) {
+//       dayCards.push(<Day key={i} nbDay={i} />);
+//    }
 
-   return (
-      <>
-         {dayCards}
-      </>
-   );
-};
+//    return (
+//       <>
+//          {dayCards}
+//       </>
+//    );
+// };
 
-export default Days;
+export default Day;
