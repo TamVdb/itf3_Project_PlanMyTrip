@@ -12,7 +12,8 @@ const getTrips = async (req, res) => {
          res.status(200).json(trips);
       }
    } catch (error) {
-      res.status(500).json({ error: 'Erreur interne' });
+      console.log(error);
+      res.status(500).json({ error: error.message });
    }
 };
 
@@ -28,7 +29,8 @@ const getTrip = async (req, res) => {
       }
       res.status(200).json(trip);
    } catch (error) {
-      res.status(500).json({ error: 'Erreur interne' });
+      console.log(error);
+      res.status(500).json({ error: error.message });
    }
 };
 
@@ -40,6 +42,7 @@ const addTrip = async (req, res) => {
       const trip = await TripModel.create({ user: req.user._id, ...req.body });
       res.status(200).json(trip);
    } catch (error) {
+      console.log(error);
       res.status(500).json({ error: error.message });
    }
 };
@@ -53,7 +56,6 @@ const updateTrip = async (req, res) => {
 
       // Check if trip exists
       const trip = await TripModel.findById(tripId);
-      // console.log("Trip id", tripId);
       if (!trip) {
          return res.status(404).json({ error: 'Trip not found' });
       }
@@ -67,10 +69,8 @@ const updateTrip = async (req, res) => {
 
       // Réponse formatée avec `id` au lieu de `_id`
       res.status(200).json({ id: tripId, updatedTrip });
-      // console.log("ID", tripId);
-      // console.log("Updated trip", updatedTrip);
-
    } catch (error) {
+      console.log(error);
       res.status(500).json({ error: error.message });
    }
 };
@@ -100,9 +100,9 @@ const deleteTrip = async (req, res) => {
 
       await trip.deleteOne();
       res.status(200).json({ id: req.params.id });
+
    } catch (error) {
       console.log(error);
-
       res.status(500).json({ error: error.message });
    }
 };
@@ -138,6 +138,7 @@ const checkTrip = async (req, res) => {
       });
 
    } catch (error) {
+      console.log(error);
       res.status(500).json({ error: error.message });
    }
 };
