@@ -13,6 +13,10 @@ const ActivitySchema = new mongoose.Schema({
    location: String,
    duration: String,
    price: String,
+   day: {
+      type: Number,
+      default: 0
+   }
 });
 
 const ActivityModel = mongoose.model('Activity', ActivitySchema);
