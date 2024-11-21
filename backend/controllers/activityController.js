@@ -20,9 +20,9 @@ const getActivities = async (req, res) => {
       // Get activities for the trip
       const activities = await ActivityModel.find({ trip: tripId });
 
-      if (activities) {
-         res.status(200).json(activities);
-      }
+      res.status(200).json({ tripId, activities });
+      // console.log("Trip ID:", tripId);
+      // console.log("Activities:", activities);
 
    } catch (error) {
       console.log(error);
@@ -119,7 +119,7 @@ const updateActivity = async (req, res) => {
       // Update activity
       const updateActivity = await ActivityModel.findByIdAndUpdate(activityId, req.body, { new: true });
 
-      res.status(200).json({ activityId, updateActivity });
+      res.status(200).json({ tripId, activityId, updateActivity });
       // console.log("ID", activityId);
       // console.log("Updated activity", updateActivity);
 
@@ -156,7 +156,9 @@ const deleteActivity = async (req, res) => {
 
       // Delete activity
       await activity.deleteOne();
-      res.status(200).json({ id: activityId });
+      res.status(200).json({ tripId, activityId });
+      // console.log("TripID", tripId);
+      // console.log("ActivityID", activityId);
 
    } catch (error) {
       console.log(error);
