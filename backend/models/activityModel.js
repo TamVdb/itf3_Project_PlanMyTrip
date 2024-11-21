@@ -10,7 +10,7 @@ const ActivitySchema = new mongoose.Schema({
       type: String,
       required: [true, 'Please add a name']
    },
-   place: String,
+   location: String,
    duration: String,
    price: String,
 });
