@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { swithToAddtrip } from '../../store/modal/modal.slice';
+import { switchToAddtrip } from '../../store/modal/modal.slice';
 import { FaGlobeEurope } from 'react-icons/fa';
 import { setCredentials, clearCredentials } from '../../store/auth/auth.slice';
 import TripList from '../../components/TripList/TripList';
@@ -32,7 +32,7 @@ const TripsDashboard = () => {
    }, [user, navigate]);
 
    const handleAddTripClick = () => {
-      dispatch(swithToAddtrip());
+      dispatch(switchToAddtrip());
    };
 
    return (
