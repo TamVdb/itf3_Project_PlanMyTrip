@@ -11,6 +11,8 @@ const TripDetails = ({ trip }) => {
 
    const dispatch = useDispatch();
 
+   const currentTripId = useSelector((state) => state.trips.currentTrip.id);
+
    const [currentPage, setCurrentPage] = useState(1); // https://reactrouter.com/en/main/hooks/use-search-params
    const daysPerPage = 8;
 
@@ -41,11 +43,12 @@ const TripDetails = ({ trip }) => {
    };
 
    const handleAddActivityClick = () => {
-      dispatch(switchToAddActivity());
+      dispatch(switchToAddActivity({ tripId: currentTripId }));
    };
 
    // Si les activités ne sont pas définies, définissez-les sur un tableau vide pour éviter les erreurs 
    const activities = trip.activities || [];
+
 
    return (
       <>

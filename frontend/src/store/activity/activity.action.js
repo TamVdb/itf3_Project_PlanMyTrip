@@ -18,7 +18,6 @@ export const addActivity = createAsyncThunk('activities/add', async ({ tripId, a
          price: activity.price,
       };
 
-      console.log("API Response:", newActivity);
       return newActivity;
 
    } catch (error) {
@@ -50,12 +49,10 @@ export const getActivities = createAsyncThunk('activities/get', async ({ tripId 
 
 // Action to uptdate an activity
 export const updateActivity = createAsyncThunk('trip/update', async ({ tripId, activityId, updatedActivity }, { rejectWithValue }) => {
-   console.log("Dispatching updateActivity with tripId:", tripId, "and activityId:", activityId);
+   // console.log("Dispatching updateActivity with tripId:", tripId, "and activityId:", activityId);
 
    try {
       const response = await axios.put(`${API_URL}/${tripId}/activity/update/${activityId}`, updatedActivity, { withCredentials: true });
-
-      console.log("API Response:", response.data);
 
       const activity = response.data.updateActivity;
 

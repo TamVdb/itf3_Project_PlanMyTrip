@@ -22,7 +22,6 @@ const activitySlice = createSlice({
             state.isLoading = false;
             state.isSuccess = true;
             state.activities.push(action.payload);
-            console.log(action.payload);
          })
          .addCase(addActivity.rejected, (state, action) => {
             state.isLoading = false;
