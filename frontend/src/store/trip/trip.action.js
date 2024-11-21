@@ -84,8 +84,6 @@ export const updateTrip = createAsyncThunk('trip/update', async ({ id, updatedTr
    try {
       const response = await axios.put(`${API_URL}/update/${id}`, updatedTrip, { withCredentials: true });
 
-      console.log("API Response:", response.data);
-
       const trip = response.data.updatedTrip;
 
       const tripToUpdate = {
