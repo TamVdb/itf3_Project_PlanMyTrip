@@ -1,12 +1,17 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { switchToAddActivity } from '../../store/modal/modal.slice';
+import ActivityModal from '../ActivityModal/ActivityModal';
 import ActivitiesList from '../../components/ActivitiesList/ActivitiesList';
 import { Link } from 'react-router-dom';
 import { FaGlobeEurope, FaPlus } from 'react-icons/fa';
 import Day from '../Day/Day';
-import { useState } from 'react';
 
 const TripDetails = ({ trip }) => {
 
-   const [currentPage, setCurrentPage] = useState(1);
+   const dispatch = useDispatch();
+
+   const [currentPage, setCurrentPage] = useState(1); // https://reactrouter.com/en/main/hooks/use-search-params
    const daysPerPage = 8;
 
    if (!trip) { return <div>No trip details available</div>; }
@@ -20,17 +25,12 @@ const TripDetails = ({ trip }) => {
       daysArray.push(i);
    }
 
-   console.log(daysArray);
-
-
    // Set the number of days to be displayed on the current page
    const startIndex = (currentPage - 1) * daysPerPage;
    const endIndex = startIndex + daysPerPage;
 
    // Get the days to be displayed on the current page
    const visibleDays = daysArray.slice(startIndex, endIndex);
-   console.log(visibleDays);
-
 
    const handleNextPage = () => {
       if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -38,6 +38,10 @@ const TripDetails = ({ trip }) => {
 
    const handlePreviousPage = () => {
       if (currentPage > 1) setCurrentPage(currentPage - 1);
+   };
+
+   const handleAddActivityClick = () => {
+      dispatch(switchToAddActivity());
    };
 
    // Si les activités ne sont pas définies, définissez-les sur un tableau vide pour éviter les erreurs 
@@ -65,13 +69,15 @@ const TripDetails = ({ trip }) => {
             </div>
          </div>
 
-         <div className="container flex flex-row flex-wrap gap-5 py-8 justify-between">
+         <ActivityModal />
+
+         <div className="container flex flex-row flex-wrap gap-5 py-8 justify-between items-start">
             <div className="flex flex-col w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(25%-1.25rem)]">
                <div className="flex flex-col bg-custom-blue items-center w-full p-4 justify-between gap-4">
                   <h3 className="font-title font-semibold text-white text-2xl my-8">Things to do</h3>
                   <ActivitiesList />
                   <div className="flex justify-center my-8 w-full">
-                     <button className="flex items-center space-x-2">
+                     <button className="flex items-center space-x-2" onClick={handleAddActivityClick}>
                         <span className="bg-white p-2 rounded-full flex justify-center items-center">
                            <FaPlus className="text-custom-orange text-xl" />
                         </span>

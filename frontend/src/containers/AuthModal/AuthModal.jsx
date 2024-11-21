@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal, swithToLogin, swithToSignup } from '../../store/modal/modal.slice';
+import { closeModal, switchToLogin, switchToSignup } from '../../store/modal/modal.slice';
 import Login from '../../components/Login/Login';
 import Signup from '../../components/Signup/Signup';
 
@@ -15,11 +15,11 @@ const AuthModal = () => {
    };
 
    const handleSwitchToLogin = () => {
-      dispatch(swithToLogin());
+      dispatch(switchToLogin());
    };
 
    const handleSwitchToSignup = () => {
-      dispatch(swithToSignup());
+      dispatch(switchToSignup());
    };
 
    return (
