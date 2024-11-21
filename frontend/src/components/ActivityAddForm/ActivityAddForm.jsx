@@ -20,7 +20,6 @@ const ActivityAddForm = () => {
    // Dispatch to add a new activity
    const dispatch = useDispatch();
    const currentTripId = useSelector((state) => state.trips.currentTrip.id);
-   // console.log("Current trip ID:", currentTripId);
 
    // Handle the submission of the form
    const handleAddActivity = (e) => {

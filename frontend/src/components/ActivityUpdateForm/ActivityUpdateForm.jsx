@@ -21,9 +21,6 @@ const ActivityUpdateForm = () => {
    const currentTripId = useSelector((state) => state.modal.currentTripId);
    const currentActivityId = useSelector((state) => state.modal.currentActivityId);
 
-   console.log("Current trip ID:", currentTripId);
-   console.log("Current activity ID:", currentActivityId);
-
    const activity = useSelector((state) => state.activities.activities.find(activity => activity.id === currentActivityId));
 
    useEffect(() => {

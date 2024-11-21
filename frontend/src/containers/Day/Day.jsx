@@ -13,19 +13,4 @@ const Day = ({ nbDay }) => {
    );
 };
 
-// const Days = ({ days }) => {
-
-//    const dayCards = [];
-
-//    for (let i = 1; i <= days; i++) {
-//       dayCards.push(<Day key={i} nbDay={i} />);
-//    }
-
-//    return (
-//       <>
-//          {dayCards}
-//       </>
-//    );
-// };
-
 export default Day;
