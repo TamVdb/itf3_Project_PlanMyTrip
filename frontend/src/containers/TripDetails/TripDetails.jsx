@@ -6,6 +6,8 @@ import ActivitiesList from '../../components/ActivitiesList/ActivitiesList';
 import { Link } from 'react-router-dom';
 import { FaGlobeEurope, FaPlus } from 'react-icons/fa';
 import Day from '../Day/Day';
+import { useDrag, useDrop } from 'react-dnd';
+import { updateActivityDay } from '../../store/activity/activity.action';
 
 const TripDetails = ({ trip }) => {
 
@@ -49,6 +51,10 @@ const TripDetails = ({ trip }) => {
    // Si les activités ne sont pas définies, définissez-les sur un tableau vide pour éviter les erreurs 
    const activities = trip.activities || [];
 
+   const handleDropActivity = (activityId, day) => {
+      dispatch(updateActivityDay({ tripId: currentTripId, activityId, newDay: day }));
+   };
+
 
    return (
       <>
@@ -91,8 +97,12 @@ const TripDetails = ({ trip }) => {
             </div>
 
             <div className="day_list flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
-               {visibleDays.map(day => (
+               {/* {visibleDays.map(day => (
                   <Day key={day} nbDay={day} />
+               ))} */}
+
+               {visibleDays.map((day) => (
+                  <Day key={day} nbDay={day} dayActivities={activities.filter(a => a.day === day)} onDropActivity={handleDropActivity} />
                ))}
             </div>
          </div>

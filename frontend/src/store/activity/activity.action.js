@@ -36,7 +36,8 @@ export const getActivities = createAsyncThunk('activities/get', async ({ tripId 
          name: activity.name,
          location: activity.location,
          duration: activity.duration,
-         price: activity.price
+         price: activity.price,
+         day: activity.day
       }));
 
       return activitiesData;
@@ -62,6 +63,27 @@ export const updateActivity = createAsyncThunk('trip/update', async ({ tripId, a
          location: activity.location,
          duration: activity.duration,
          price: activity.price
+      };
+      return activityToUpdate;
+
+   } catch (error) {
+      console.error("API Error:", error);
+      return rejectWithValue(error.response?.data || 'An error occurred');
+   }
+});
+
+// Action to uptdate an activity day
+export const updateActivityDay = createAsyncThunk('activities/day/update', async ({ tripId, activityId, updatedDay }, { rejectWithValue }) => {
+   console.log("Dispatching updateActivityDay with tripId:", tripId, " activityId:", activityId, "and updatedDay:", updatedDay);
+
+   try {
+      const response = await axios.put(`${API_URL}/${tripId}/activity/update/${activityId}/day`, updatedDay, { withCredentials: true });
+
+      const activity = response.data.updateDay;
+
+      const activityToUpdate = {
+         id: activity._id,
+         day: activity.day
       };
       return activityToUpdate;
 
