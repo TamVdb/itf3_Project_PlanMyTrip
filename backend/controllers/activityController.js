@@ -30,6 +30,29 @@ const getActivities = async (req, res) => {
    }
 };
 
+const getInitialActivities = async (req, res) => {
+   try {
+      // Fetch trip id 
+      const tripId = req.params.tripId.toString();
+      // console.log(tripId);
+
+      // Check if trip exists
+      const trip = await TripModel.findById(tripId);
+      if (!trip) {
+         return res.status(404).json({ error: 'Trip not found' });
+      }
+
+      // Get activities for the trip
+      const activities = await ActivityModel.find({ trip: tripId, day: 0 });
+
+      res.status(200).json({ tripId, activities });
+
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+   }
+};
+
 
 // @desc    Get activity
 // @route   GET /api/trip/:tripId/activity/get/:activityId
@@ -194,7 +217,7 @@ const updateActivityDay = async (req, res) => {
 
       res.status(200).json({ tripId, activityId, updateDay });
       // console.log("ID", activityId);
-      // console.log("Updated activity", updateActivity);
+      // console.log("Updated day", updateDay);
 
    } catch (error) {
       console.log(error);
@@ -203,4 +226,4 @@ const updateActivityDay = async (req, res) => {
 };
 
 
-module.exports = { getActivities, getActivity, addActivity, deleteActivity, updateActivity, updateActivityDay };
+module.exports = { getActivities, getInitialActivities, getActivity, addActivity, deleteActivity, updateActivity, updateActivityDay };

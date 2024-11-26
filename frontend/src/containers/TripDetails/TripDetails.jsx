@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { switchToAddActivity } from '../../store/modal/modal.slice';
 import ActivityModal from '../ActivityModal/ActivityModal';
@@ -6,7 +6,6 @@ import ActivitiesList from '../../components/ActivitiesList/ActivitiesList';
 import { Link } from 'react-router-dom';
 import { FaGlobeEurope, FaPlus } from 'react-icons/fa';
 import Day from '../Day/Day';
-import { useDrag, useDrop } from 'react-dnd';
 import { updateActivityDay } from '../../store/activity/activity.action';
 
 const TripDetails = ({ trip }) => {
@@ -48,13 +47,18 @@ const TripDetails = ({ trip }) => {
       dispatch(switchToAddActivity({ tripId: currentTripId }));
    };
 
-   // Si les activités ne sont pas définies, définissez-les sur un tableau vide pour éviter les erreurs 
-   const activities = trip.activities || [];
+   // Get activities from the store to display in the activities list
+   const activities = useSelector((state) => state.activities.activities);
 
+   // Update activity day
    const handleDropActivity = (activityId, day) => {
-      dispatch(updateActivityDay({ tripId: currentTripId, activityId, newDay: day }));
+      dispatch(updateActivityDay({
+         tripId: currentTripId,
+         activityId,
+         updatedDay: { day }
+      }));
+      console.log(`Dropped activity ${activityId} to day ${day}`);
    };
-
 
    return (
       <>
@@ -81,7 +85,7 @@ const TripDetails = ({ trip }) => {
          <ActivityModal />
 
          <div className="container flex flex-row flex-wrap gap-5 py-8 justify-between items-start">
-            <div className="flex flex-col w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(25%-1.25rem)]">
+            <div className="flex flex-col w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33%-1.25rem)] xl:w-[calc(25%-1.25rem)]">
                <div className="flex flex-col bg-custom-blue items-center w-full p-4 justify-between gap-4">
                   <h3 className="font-title font-semibold text-white text-2xl my-8">Things to do</h3>
                   <ActivitiesList />
@@ -96,14 +100,21 @@ const TripDetails = ({ trip }) => {
                </div>
             </div>
 
-            <div className="day_list flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
-               {/* {visibleDays.map(day => (
-                  <Day key={day} nbDay={day} />
-               ))} */}
+            <div className="day_list flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(67%-1.25rem)] xl:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
+               {/* Display only 8 days per page */}
+               {visibleDays.map((visibleDay) => {
+                  const activitiesForDay = activities.filter((activity) => activity.day === visibleDay);
+                  console.log(`Day ${visibleDay}:`, activitiesForDay);
 
-               {visibleDays.map((day) => (
-                  <Day key={day} nbDay={day} dayActivities={activities.filter(a => a.day === day)} onDropActivity={handleDropActivity} />
-               ))}
+                  return (
+                     <Day
+                        key={visibleDay}
+                        nbDay={visibleDay}
+                        onDropActivity={handleDropActivity}
+                        dayActivities={activitiesForDay}
+                     />
+                  );
+               })}
             </div>
          </div>
 
