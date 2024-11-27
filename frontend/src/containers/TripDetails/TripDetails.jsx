@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { switchToAddActivity } from '../../store/modal/modal.slice';
 import ActivityModal from '../ActivityModal/ActivityModal';
@@ -57,7 +57,6 @@ const TripDetails = ({ trip }) => {
          activityId,
          updatedDay: { day }
       }));
-      console.log(`Dropped activity ${activityId} to day ${day}`);
    };
 
    return (
@@ -101,10 +100,8 @@ const TripDetails = ({ trip }) => {
             </div>
 
             <div className="day_list flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(67%-1.25rem)] xl:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
-               {/* Display only 8 days per page */}
                {visibleDays.map((visibleDay) => {
-                  const activitiesForDay = activities.filter((activity) => activity.day === visibleDay);
-                  console.log(`Day ${visibleDay}:`, activitiesForDay);
+                  const activitiesForDay = activities.filter(activity => Number(activity.day) === Number(visibleDay));
 
                   return (
                      <Day
@@ -119,9 +116,10 @@ const TripDetails = ({ trip }) => {
          </div>
 
          <div className="flex justify-center items-center gap-4 mb-8">
-            <button className={`px-3 py-1 rounded cursor-pointer font-medium transition-200 ${currentPage === 1
-               ? 'bg-custom-lightYellow cursor-not-allowed'
-               : 'bg-custom-yellow  hover:bg-custom-lightYellow'
+            <button className={`px-3 py-1 rounded font-medium transition-200 
+            ${currentPage === 1
+                  ? 'bg-custom-lightYellow cursor-not-allowed'
+                  : 'bg-custom-yellow  hover:bg-custom-lightYellow'
                }`}
                onClick={handlePreviousPage}
                disabled={currentPage === 1}
@@ -130,9 +128,10 @@ const TripDetails = ({ trip }) => {
             <p>
                Page {currentPage} of {totalPages}
             </p>
-            <button className={`px-3 py-1 rounded cursor-pointer font-medium transition-200 ${currentPage === totalPages
-               ? 'bg-custom-lightYellow cursor-not-allowed'
-               : 'bg-custom-yellow  hover:bg-custom-lightYellow'
+            <button className={`px-3 py-1 rounded font-medium transition-200 
+            ${currentPage === totalPages
+                  ? 'bg-custom-lightYellow cursor-not-allowed'
+                  : 'bg-custom-yellow  hover:bg-custom-lightYellow'
                }`}
                onClick={handleNextPage}
                disabled={currentPage === totalPages}

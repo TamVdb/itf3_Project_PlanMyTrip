@@ -2,9 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteActivity } from '../../store/activity/activity.action';
 import { FaTrashCan, FaPencil } from "react-icons/fa6";
 import { switchToUpdateActivity } from '../../store/modal/modal.slice';
-import { useDrag } from 'react-dnd';
 
-const Activity = ({ id, name, location, duration, price, day }) => {
+const Activity = ({ id, name, location, duration, price }) => {
 
    const dispatch = useDispatch();
    const currentTripId = useSelector((state) => state.trips.currentTrip.id);
@@ -17,17 +16,16 @@ const Activity = ({ id, name, location, duration, price, day }) => {
       dispatch(switchToUpdateActivity({ tripId: currentTripId, activityId: id }));
    };
 
-   const [{ isDragging }, dragRef] = useDrag(() => ({
-      type: 'ACTIVITY',
-      item: { id },
-      collect: (monitor) => ({
-         isDragging: monitor.isDragging(),
-      }),
-   }));
+   const handleDragStart = (e) => {
+      e.dataTransfer.setData("activityId", id);
+   };
 
    return (
       <>
-         <div ref={dragRef} className="border-0 rounded bg-[#F0F9FB] py-2 px-4 w-full cursor-pointer">
+         <div className="border-0 rounded bg-[#F0F9FB] py-2 px-4 w-full"
+            onDragStart={handleDragStart}
+            draggable
+         >
             <div className="flex justify-between items-start">
                <p className="font-medium text-[17px] pb-1">{name}</p>
                <div className="flex justify-end">

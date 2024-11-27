@@ -27,7 +27,7 @@
       font-family: 'Quicksand', sans-serif;
    }
    h1 {
-    @apply text-2xl;
+      @apply text-2xl;
   }
    .input {
       @apply border border-gray-400 w-full rounded-lg py-1.5 outline-none px-4 focus:ring-1 focus:ring-inset focus:ring-blue-200;
