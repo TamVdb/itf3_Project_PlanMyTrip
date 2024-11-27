@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { switchToAddActivity } from '../../store/modal/modal.slice';
 import ActivityModal from '../ActivityModal/ActivityModal';
 import ActivitiesList from '../../components/ActivitiesList/ActivitiesList';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FaGlobeEurope, FaPlus } from 'react-icons/fa';
 import Day from '../Day/Day';
 import { updateActivityDay } from '../../store/activity/activity.action';
@@ -11,10 +11,13 @@ import { updateActivityDay } from '../../store/activity/activity.action';
 const TripDetails = ({ trip }) => {
 
    const dispatch = useDispatch();
-
    const currentTripId = useSelector((state) => state.trips.currentTrip.id);
 
-   const [currentPage, setCurrentPage] = useState(1); // https://reactrouter.com/en/main/hooks/use-search-params
+   const [searchParams, setSearchParams] = useSearchParams();
+   const pageParam = searchParams.get('page');
+   const firstPage = pageParam ? parseInt(pageParam) : 1;
+
+   const [currentPage, setCurrentPage] = useState(firstPage);
    const daysPerPage = 8;
 
    if (!trip) { return <div>No trip details available</div>; }
@@ -36,11 +39,17 @@ const TripDetails = ({ trip }) => {
    const visibleDays = daysArray.slice(startIndex, endIndex);
 
    const handleNextPage = () => {
-      if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+      if (currentPage < totalPages) {
+         setCurrentPage(currentPage + 1);
+         setSearchParams({ page: currentPage + 1 });
+      }
    };
 
    const handlePreviousPage = () => {
-      if (currentPage > 1) setCurrentPage(currentPage - 1);
+      if (currentPage > 1) {
+         setCurrentPage(currentPage - 1);
+         setSearchParams({ page: currentPage - 1 });
+      }
    };
 
    const handleAddActivityClick = () => {
