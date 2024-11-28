@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../store/users/user.action';
-import { setCredentials } from '../../store/auth/auth.slice';
 import { handleError, handleSuccess } from '../../utils';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,8 +31,6 @@ const Signup = ({ onSwitchToLogin = () => { } }) => {
    useEffect(() => {
       if (isSuccess) {
          handleSuccess('User created successfully');
-         // After signing up successfully, dispatch setCredentials to store the user
-         dispatch(setCredentials({ username })); // Update credentials
          setTimeout(() => onSwitchToLogin(), 2000);
       } else if (isError) {
          handleError(message || 'An error occurred. Please try again');

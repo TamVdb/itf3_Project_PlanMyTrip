@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = UserModel.create({ username, email, password: hashedPassword });
+      const user = await UserModel.create({ username, email, password: hashedPassword });
 
       if (user) {
          // Generate token and store it in a HTTP-only cookie
