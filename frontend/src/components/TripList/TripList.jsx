@@ -84,9 +84,7 @@ const TripList = () => {
       dispatch(getTrips());
    }, [dispatch, isError, message]);
 
-   if (isLoading) {
-      return <Spinner />;
-   }
+   // if (isLoading) return <Spinner />;
 
    return (
       <>

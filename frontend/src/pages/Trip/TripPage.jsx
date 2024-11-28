@@ -15,9 +15,7 @@ const TripPage = () => {
       dispatch(getTrip(id));
    }, [dispatch, id]);
 
-   if (isLoading) {
-      return <Spinner />;
-   }
+   // if (isLoading) return <Spinner />;
 
    if (isError) {
       return <div>{message}</div>;

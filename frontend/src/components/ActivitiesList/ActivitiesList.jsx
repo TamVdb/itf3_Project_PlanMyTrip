@@ -19,7 +19,7 @@ const ActivitiesList = () => {
       }
    }, [dispatch, currentTripId, isError, message]);
 
-   if (isLoading) return <Spinner />;
+   // if (isLoading) return <Spinner />;
 
    if (!activities || activities.length === 0) {
       return <p>No activities available</p>;
