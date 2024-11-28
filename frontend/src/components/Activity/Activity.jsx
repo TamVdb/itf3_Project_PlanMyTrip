@@ -3,7 +3,7 @@ import { deleteActivity } from '../../store/activity/activity.action';
 import { FaTrashCan, FaPencil } from "react-icons/fa6";
 import { switchToUpdateActivity } from '../../store/modal/modal.slice';
 
-const Activity = ({ id, name, location, duration, price }) => {
+const Activity = ({ id, name, location, duration, price, day }) => {
 
    const dispatch = useDispatch();
    const currentTripId = useSelector((state) => state.trips.currentTrip.id);
@@ -17,7 +17,7 @@ const Activity = ({ id, name, location, duration, price }) => {
    };
 
    const handleDragStart = (e) => {
-      e.dataTransfer.setData("activityId", id);
+      e.dataTransfer.setData('activityId', id);
    };
 
    return (

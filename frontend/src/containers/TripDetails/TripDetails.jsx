@@ -109,18 +109,10 @@ const TripDetails = ({ trip }) => {
             </div>
 
             <div className="day_list flex flex-row w-full sm:w-[calc(50%-1rem)] lg:w-[calc(67%-1.25rem)] xl:w-[calc(75%-1.25rem)] gap-4 justify-between flex-wrap">
-               {visibleDays.map((visibleDay) => {
-                  const activitiesForDay = activities.filter(activity => Number(activity.day) === Number(visibleDay));
-
-                  return (
-                     <Day
-                        key={visibleDay}
-                        nbDay={visibleDay}
-                        onDropActivity={handleDropActivity}
-                        dayActivities={activitiesForDay}
-                     />
-                  );
-               })}
+               {/* Colonnes des jours */}
+               {visibleDays.map(day => (
+                  <Day key={day} nbDay={day} onDropActivity={handleDropActivity} />
+               ))}
             </div>
          </div>
 
