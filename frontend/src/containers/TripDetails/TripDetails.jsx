@@ -18,7 +18,7 @@ const TripDetails = ({ trip }) => {
    const firstPage = pageParam ? parseInt(pageParam) : 1;
 
    const [currentPage, setCurrentPage] = useState(firstPage);
-   const daysPerPage = 8;
+   const daysPerPage = 9;
 
    if (!trip) { return <div>No trip details available</div>; }
 

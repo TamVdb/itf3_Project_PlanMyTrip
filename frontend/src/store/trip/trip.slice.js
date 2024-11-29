@@ -36,7 +36,7 @@ const tripSlice = createSlice({
          .addCase(getTrips.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.trips = action.payload;
+            state.trips = action.payload || [];
          })
          .addCase(getTrips.rejected, (state, action) => {
             state.isLoading = false;
@@ -49,7 +49,7 @@ const tripSlice = createSlice({
          .addCase(getTrip.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.currentTrip = action.payload;
+            state.currentTrip = action.payload || null;
          })
          .addCase(getTrip.rejected, (state, action) => {
             state.isLoading = false;

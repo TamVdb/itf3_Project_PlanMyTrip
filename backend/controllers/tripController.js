@@ -9,7 +9,9 @@ const getTrips = async (req, res) => {
    try {
       const trips = await TripModel.find({ user: req.user._id });
       if (trips) {
-         res.status(200).json(trips);
+         return res.status(200).json(trips);
+      } else {
+         return res.status(404).json({ error: 'No trips found' });
       }
    } catch (error) {
       console.log(error);
