@@ -101,14 +101,14 @@ const addActivity = async (req, res) => {
          return res.status(404).json({ error: 'Trip not found' });
       }
 
-      // Check if activity already exists
-      const activity = await ActivityModel.findOne({ name: req.body.name });
-      if (activity) {
-         return res.status(400).json({ error: 'Activity already exists' });
-      } else {
-         const activity = await ActivityModel.create({ trip: tripId, ...req.body });
-         res.status(200).json(activity);
+      // Check if activity already exists for this trip
+      const existingActivity = await ActivityModel.findOne({ name: req.body.name, trip: tripId });
+      if (existingActivity) {
+         return res.status(400).json({ error: 'Activity with the same name already exists for this trip' });
       }
+
+      const activity = await ActivityModel.create({ trip: tripId, ...req.body });
+      res.status(200).json(activity);
 
    } catch (error) {
       console.log(error);
