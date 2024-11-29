@@ -21,7 +21,7 @@ const activitySlice = createSlice({
          .addCase(addActivity.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.activities.push(action.payload);
+            state.activities = [...state.activities, action.payload];
          })
          .addCase(addActivity.rejected, (state, action) => {
             state.isLoading = false;

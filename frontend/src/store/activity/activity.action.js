@@ -8,7 +8,7 @@ export const addActivity = createAsyncThunk('activities/add', async ({ tripId, a
    try {
       const response = await axios.post(`${API_URL}/${tripId}/activity/add`, activityData, { withCredentials: true });
 
-      const activity = response.data.activitiesData;
+      const activity = response.data;
 
       const newActivity = {
          id: activity._id,
@@ -16,6 +16,7 @@ export const addActivity = createAsyncThunk('activities/add', async ({ tripId, a
          location: activity.location,
          duration: activity.duration,
          price: activity.price,
+         day: activity.day
       };
 
       return newActivity;
@@ -74,7 +75,7 @@ export const updateActivity = createAsyncThunk('trip/update', async ({ tripId, a
 
 // Action to uptdate an activity day
 export const updateActivityDay = createAsyncThunk('activities/day/update', async ({ tripId, activityId, updatedDay }, { rejectWithValue }) => {
-   console.log("Dispatching updateActivityDay with tripId:", tripId, " activityId:", activityId, "and updatedDay:", updatedDay);
+   // console.log("Dispatching updateActivityDay with tripId:", tripId, " activityId:", activityId, "and updatedDay:", updatedDay);
 
    try {
       const response = await axios.put(`${API_URL}/${tripId}/activity/update/${activityId}/day`, updatedDay, { withCredentials: true });

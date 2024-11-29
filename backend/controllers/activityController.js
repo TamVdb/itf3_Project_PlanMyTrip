@@ -92,22 +92,23 @@ const getActivity = async (req, res) => {
 const addActivity = async (req, res) => {
    try {
       // Fetch trip id 
-      const tripId = req.params.tripId.toString();
-      // console.log(tripId);
+      const tripId = req.params.tripId;
 
-      // Check if trip exists
-      const trip = await TripModel.findById(tripId);
-      if (!trip) {
-         return res.status(404).json({ error: 'Trip not found' });
-      }
+      // // Check if trip exists
+      // const trip = await TripModel.findById(tripId);
+      // if (!trip) {
+      //    return res.status(404).json({ error: 'Trip not found' });
+      // }
 
       // Check if activity already exists for this trip
-      const existingActivity = await ActivityModel.findOne({ name: req.body.name, trip: tripId });
+      const existingActivity = await ActivityModel.findOne({ trip: tripId, name: req.body.name });
+
       if (existingActivity) {
          return res.status(400).json({ error: 'Activity with the same name already exists for this trip' });
       }
 
       const activity = await ActivityModel.create({ trip: tripId, ...req.body });
+
       res.status(200).json(activity);
 
    } catch (error) {
