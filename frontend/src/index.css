@@ -54,14 +54,14 @@
    background-repeat: no-repeat;
 }
 
-.trip_list {
+/* .trip_list {
    &::after {
       content: '';
       width: 100%;
       height: 0;
       visibility: hidden;
    }
-}
+} */
 
 .day_list {
    &::after {
@@ -72,20 +72,20 @@
    }
 }
 
-@media (min-width: 1024px) { 
+/* @media (min-width: 1024px) { 
    .trip_list {
       &::after {
          width: calc(33.33% - 1rem);
       }
    }
-}
+} */
 
 @media (min-width: 1280px) { 
-   .trip_list {
+   /* .trip_list {
       &::after {
          width: calc(50% - 1rem);
       }
-   }
+   } */
 
    .day_list {
       &::after {
