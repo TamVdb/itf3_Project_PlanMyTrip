@@ -19,7 +19,8 @@ app.use(express.json()); // To parse JSON in the request body
 app.use(express.urlencoded({ extended: true })); // Pour traiter les requêtes POST des formulaires
 app.use(cors({
    origin: process.env.API_URL, // Allow requests from this origin
-   credentials: true // To allow cookies
+   credentials: true, // To allow cookies
+   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
 app.use(cookieParser());

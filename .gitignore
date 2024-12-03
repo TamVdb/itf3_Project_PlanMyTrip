@@ -7,14 +7,21 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Production
-/build
+# Node modules
+frontend/node_modules/
+backend/node_modules/
 
-*node_modules
-dist
-dist-ssr
-*.local
-*.tmp.js
+# Environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# Build output
+frontend/dist/
+backend/dist/
 
 # VS CODE
 .vscode/*
@@ -28,6 +35,3 @@ dist-ssr
 # Misc
 .DS_Store
 desktop.ini
-
-#Environment
-*.env

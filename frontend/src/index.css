@@ -48,7 +48,7 @@
 .homebgimg {
    width: 100%;
    height: 100vh;
-   background-image: url('./assets/test-bg.png');
+   background-image: url('./assets/home-bg.png');
    background-size: cover;
    background-position: center;
    background-repeat: no-repeat;
