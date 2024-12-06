@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true })); // Pour traiter les requêtes P
 app.use(cors({
    origin: process.env.API_URL, // Allow requests from this origin
    credentials: true, // To allow cookies
-   methods: ['GET', 'POST', 'PUT', 'DELETE']
+   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
 }));
 
 app.use(cookieParser());
