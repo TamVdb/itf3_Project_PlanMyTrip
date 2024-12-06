@@ -23,6 +23,9 @@ app.use(cors({
    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
 }));
 
+console.log('CORS is configured for origin:', process.env.API_URL);
+
+
 app.use(cookieParser());
 
 // Call the users route
