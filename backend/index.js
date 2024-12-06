@@ -23,9 +23,6 @@ app.use(cors({
    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
 }));
 
-console.log('CORS is configured for origin:', process.env.API_URL);
-
-
 app.use(cookieParser());
 
 // Call the users route
@@ -36,6 +33,6 @@ app.use('/api/trips', tripRoutes);
 app.use('/api/trip', activityRoutes);
 
 
-app.listen(port, () => {
-   console.log(`Server is running on port ${port}`);
-});
+// app.listen(port, () => {
+//    console.log(`Server is running on port ${port}`);
+// });
