@@ -1,5 +1,5 @@
 const express = require('express');
-const TripModel = require('../models/TripModel');
+const TripModel = require('../models/tripModel');
 const ActivityModel = require('../models/activityModel');
 
 // @desc    Get activities
