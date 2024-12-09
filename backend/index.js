@@ -33,8 +33,6 @@ app.use('/api/trips', tripRoutes);
 app.use('/api/trip', activityRoutes);
 
 
-// app.listen(port, () => {
-//    console.log(`Server is running on port ${port}`);
-// });
-
-module.exports = app; // Export app for Vercel
+app.listen(port, () => {
+   console.log(`Server is running on port ${port}`);
+});
